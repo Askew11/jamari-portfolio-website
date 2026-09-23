@@ -54,138 +54,46 @@ document.addEventListener("DOMContentLoaded", function () {
     updateActiveNavItem();
 });
 
-// make image and text box appear when entering timeline zone
-document.addEventListener("DOMContentLoaded", function () {
+// Shared scroll-reveal helper: watches `elements` and calls onIntersect(target)
+// the first time each one scrolls into view.
+function revealOnIntersect(elements, onIntersect, options) {
+    options = options || { root: null, rootMargin: '0px', threshold: 0.15 };
 
-    var timelineBlocks = document.querySelectorAll('.timeline-block');
-
-    var options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    var handleIntersection = function (entries, observer) {
+    var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-                
-                entry.target.querySelector('img').classList.add('visible');
-                entry.target.querySelector('.text-box').classList.add('visible');
+                onIntersect(entry.target);
             }
         });
-    };
+    }, options);
 
-    
-    timelineBlocks.forEach(function (timelineBlock) {
-        var observer = new IntersectionObserver(handleIntersection, options);
-        observer.observe(timelineBlock);
+    elements.forEach(function (el) {
+        observer.observe(el);
     });
-});
+}
 
-// make timeline line appear and start moving when entering timeline zone
 document.addEventListener("DOMContentLoaded", function () {
+    // Timeline entries: fade in each block's image and text box as it enters view
+    revealOnIntersect(document.querySelectorAll('.timeline-block'), function (target) {
+        target.querySelector('img').classList.add('visible');
+        target.querySelector('.text-box').classList.add('visible');
+    });
+
+    // Timeline lines: both the work and education lines appear together once
+    // either one comes into view
     var timelineWraps = document.querySelectorAll('.timeline-wrap');
-
-
-    var options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    
-    var handleIntersection = function (entries, observer) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-                
-                timelineWraps.forEach(function (timelineWrap) {
-                    timelineWrap.classList.add('appear');
-                });
-            }
+    revealOnIntersect(timelineWraps, function () {
+        timelineWraps.forEach(function (wrap) {
+            wrap.classList.add('appear');
         });
-    };
-
-    
-    var observer = new IntersectionObserver(handleIntersection, options);
-
-    
-    timelineWraps.forEach(function (timelineWrap) {
-        observer.observe(timelineWrap);
     });
-});
 
-// make about information appear when entering information zone
-document.addEventListener("DOMContentLoaded", function () {
-    var informationBlocks = document.querySelectorAll('.about-intro');
-
-    var options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    var handleIntersection = function (entries, observer) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('appear');
-            }
+    // Simple fade-in-on-scroll sections: about intro, profile/skills columns,
+    // and the hire-me/download-cv buttons
+    ['.about-intro', '.col-items-about-profile', '.profile-contact'].forEach(function (selector) {
+        revealOnIntersect(document.querySelectorAll(selector), function (target) {
+            target.classList.add('appear');
         });
-    };
-
-    var observer = new IntersectionObserver(handleIntersection, options);
-
-    informationBlocks.forEach(function (informationBlock) {
-        observer.observe(informationBlock);
-    });
-});
-
-// make skill bar and profile slide into view when intersection the zone
-document.addEventListener("DOMContentLoaded", function () {
-    var itemAboutProfiles = document.querySelectorAll('.col-items-about-profile');
-
-    var options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    var handleIntersection = function (entries, observer) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('appear');
-            }
-        });
-    };
-
-    var observer = new IntersectionObserver(handleIntersection, options);
-
-    itemAboutProfiles.forEach(function (itemAboutProfile) {
-        observer.observe(itemAboutProfile);
-    });
-});
-
-//make pofile contact buttons appear
-document.addEventListener("DOMContentLoaded", function () {
-    var profilecontacts = document.querySelectorAll('.profile-contact');
-
-    var options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    var handleIntersection = function (entries, observer) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('appear');
-            }
-        });
-    };
-
-    var observer = new IntersectionObserver(handleIntersection, options);
-
-    profilecontacts.forEach(function (profilecontact) {
-        observer.observe(profilecontact);
     });
 });
 
