@@ -975,18 +975,19 @@ header .social li a:hover{
     color: gray;
 }
 
+/* Equal 1fr columns in a max-content grid all size to the widest box,
+   so the icons are evenly spaced and the middle one sits at true center. */
 .contact-boxes{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px 60px;
-    margin-top: 80px;
-    margin-bottom: 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: clamp(60px, calc(100vw - 1100px), 160px);
+    row-gap: 40px;
+    width: max-content;
+    margin: 80px auto 50px auto;
 }
 
 .contact .box{
-    flex: 0 1 240px;
-    min-width: 0;
+    padding: 20px;
 }
 
 .contact .box .icon{
@@ -1004,15 +1005,10 @@ header .social li a:hover{
     color: rgb(95, 95, 113);
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 1059px){
     .contact-boxes{
-        gap: 40px;
-    }
-    .contact .box{
-        flex-basis: 100%;
-        max-width: 280px;
-        margin-left: auto;
-        margin-right: auto;
+        grid-template-columns: 1fr;
+        width: auto;
     }
 }
 
