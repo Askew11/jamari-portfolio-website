@@ -975,12 +975,18 @@ header .social li a:hover{
     color: gray;
 }
 
-.contact .box{
-    display: inline-block;
-    margin-right: 100px;
-    margin-left: 100px;
+.contact-boxes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px 60px;
     margin-top: 80px;
     margin-bottom: 50px;
+}
+
+.contact .box{
+    flex: 0 1 240px;
+    min-width: 0;
 }
 
 .contact .box .icon{
@@ -990,6 +996,7 @@ header .social li a:hover{
 .contact .box .text a{
     text-decoration: none;
     color: white;
+    overflow-wrap: break-word;
 }
 
 .contact .box .text a:hover{
@@ -998,13 +1005,14 @@ header .social li a:hover{
 }
 
 @media screen and (max-width: 600px){
+    .contact-boxes{
+        gap: 40px;
+    }
     .contact .box{
-        display: block;
+        flex-basis: 100%;
+        max-width: 280px;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 40px;
-        margin-bottom: 40px;
-        max-width: 280px;
     }
 }
 
