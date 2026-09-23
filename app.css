@@ -365,9 +365,9 @@ header .social li a:hover{
     }
     .col-items-about-profile{
         width: 100%;
+        text-align: center;
     }
     .col-items-about-profile h3{
-        text-align: center;
         margin-left: 0;
     }
     .col-items-about-profile p{
