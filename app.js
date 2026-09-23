@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var options = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5 
+        threshold: 0.15
     };
 
     var handleIntersection = function (entries, observer) {
@@ -86,11 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     var timelineWraps = document.querySelectorAll('.timeline-wrap');
 
-    
+
     var options = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5
+        threshold: 0.15
     };
 
     
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var options = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5
+        threshold: 0.15
     };
 
     var handleIntersection = function (entries, observer) {
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var options = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5
+        threshold: 0.15
     };
 
     var handleIntersection = function (entries, observer) {
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var options = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5
+        threshold: 0.15
     };
 
     var handleIntersection = function (entries, observer) {

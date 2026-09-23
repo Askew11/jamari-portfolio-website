@@ -317,43 +317,55 @@ header .social li a:hover{
 }
 
 @media screen and (max-width: 600px){
+    .information{
+        margin-left: 5%;
+        margin-right: 5%;
+        width: 90%;
+    }
+
     .information img{
         float: none;
-        margin-right: 225px;
+        display: block;
+        margin: 0 auto 1rem auto;
     }
 
     .information .lead{
-        margin-left: 10px;
+        margin-left: 0;
     }
-    
+
     .about-profile{
         text-align: center;
         display: block;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    .col-items-about-profile{
+        width: 100%;
     }
     .col-items-about-profile h3{
         text-align: center;
-        margin-left: 150px;
+        margin-left: 0;
     }
     .col-items-about-profile p{
-        width: 400px;
+        width: 100%;
     }
 
     .info-list li {
-        white-space: nowrap;
-        padding: 0 0 1.5rem 0px; 
-        margin-left: -38px;
+        white-space: normal;
+        padding: 0 0 1.5rem 0px;
+        margin-left: 0;
     }
 
     .col-items-about-profile .skills{
-        margin-left: 150px;
+        margin-left: 0;
     }
     .skill-bars li{
-        width: 350px;
-        margin-left: -30px;
+        width: 100%;
+        margin-left: 0;
     }
 
     .profile-contact{
-        margin-left: 25px;
+        margin-left: 0;
     }
 }
 
@@ -952,6 +964,17 @@ header .social li a:hover{
 .contact .box .text a:hover{
     transition: 0.5s;
     color: rgb(95, 95, 113);
+}
+
+@media screen and (max-width: 600px){
+    .contact .box{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        max-width: 280px;
+    }
 }
 
 .footer {
