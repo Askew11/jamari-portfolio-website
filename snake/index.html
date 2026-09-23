@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Snake</title>
+    <meta name="description" content="A classic Snake game built with p5.js. Eat the food, grow longer, and don't crash. Play with the keyboard, by swiping, or with on-screen buttons.">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="p5.min.js"></script>
+  </head>
+
+  <body>
+    <header class="top">
+      <h1>Snake</h1>
+      <p class="sub">Eat the food to grow. Don't hit the walls or yourself. It speeds up as you go.</p>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="Controls">
+        <div class="group">
+          <button id="play" class="primary" title="Space">Start</button>
+          <button id="restart" title="Restart (R)">Restart</button>
+        </div>
+
+        <dl class="stats">
+          <div><dt>Score</dt><dd id="score">0</dd></div>
+          <div><dt>Best</dt><dd id="best">0</dd></div>
+          <div><dt>Length</dt><dd id="length">3</dd></div>
+        </dl>
+      </section>
+
+      <div id="stage"></div>
+
+      <div class="dpad" id="dpad" aria-label="Direction controls">
+        <button data-dir="up" aria-label="Up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6l7 10H5z"/></svg></button>
+        <button data-dir="left" aria-label="Left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6l7 10H5z"/></svg></button>
+        <button data-dir="down" aria-label="Down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6l7 10H5z"/></svg></button>
+        <button data-dir="right" aria-label="Right"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6l7 10H5z"/></svg></button>
+      </div>
+
+      <section class="footer">
+        <p id="status" role="status" aria-live="polite"></p>
+        <p class="keys"><kbd>←</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to steer · <kbd>Space</kbd> pause · <kbd>R</kbd> restart</p>
+      </section>
+    </main>
+
+    <script src="sketch.js"></script>
+  </body>
+</html>

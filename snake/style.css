@@ -1,0 +1,263 @@
+:root {
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --text: #1a1d23;
+  --muted: #5d6472;
+  --border: #d9dde4;
+  --accent: #4f46e5;
+  --accent-text: #ffffff;
+
+  /* Board colors (read by sketch.js) */
+  --board: #ffffff;
+  --tile: #f1f3f6;
+  --snake: #16a34a;
+  --head: #15803d;
+  --eye: #ffffff;
+  --food: #dc2626;
+  --overlay: #ffffff;
+  --overlay-text: #1a1d23;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --text: #e8eaef;
+    --muted: #9aa1ad;
+    --border: #2c313c;
+    --accent: #818cf8;
+    --accent-text: #0f1115;
+
+    --board: #1b1f27;
+    --tile: #20252e;
+    --snake: #22c55e;
+    --head: #4ade80;
+    --eye: #0f1115;
+    --food: #ef4444;
+    --overlay: #0f1115;
+    --overlay-text: #e8eaef;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.top,
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.top {
+  padding-top: 20px;
+  padding-bottom: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+/* Controls */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 560px;
+  margin: 0 auto 12px;
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+button {
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:hover {
+  border-color: var(--muted);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+  min-width: 104px;
+  justify-content: center;
+}
+
+kbd {
+  font-family: inherit;
+  font-size: 0.72rem;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+  margin: 0;
+}
+
+.stats div {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.stats dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.stats dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Board */
+
+#stage {
+  display: flex;
+  justify-content: center;
+}
+
+#stage canvas {
+  display: block;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* On-screen arrows, shown only on touch devices */
+
+.dpad {
+  display: none;
+  grid-template-columns: repeat(3, 64px);
+  grid-template-rows: repeat(2, 52px);
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.dpad button {
+  justify-content: center;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dpad button:active {
+  background: var(--border);
+}
+
+.dpad svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+.dpad [data-dir="up"]    { grid-column: 2; grid-row: 1; }
+.dpad [data-dir="left"]  { grid-column: 1; grid-row: 2; }
+.dpad [data-dir="down"]  { grid-column: 2; grid-row: 2; }
+.dpad [data-dir="right"] { grid-column: 3; grid-row: 2; }
+
+.dpad [data-dir="left"] svg  { transform: rotate(-90deg); }
+.dpad [data-dir="down"] svg  { transform: rotate(180deg); }
+.dpad [data-dir="right"] svg { transform: rotate(90deg); }
+
+/* Status */
+
+.footer {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 12px 0 20px;
+}
+
+#status {
+  margin: 0;
+  min-height: 1.45em;
+}
+
+.keys {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+@media (pointer: coarse) {
+  .dpad {
+    display: grid;
+  }
+
+  .keys {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .top {
+    padding-top: 14px;
+    padding-bottom: 8px;
+  }
+
+  .sub {
+    font-size: 0.9rem;
+  }
+}
