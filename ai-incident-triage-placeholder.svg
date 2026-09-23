@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#2F2D2E"/>
+
+  <!-- App window chrome -->
+  <rect x="60" y="90" width="480" height="420" rx="10" fill="#1c1b1c"/>
+  <rect x="60" y="90" width="480" height="40" rx="10" fill="#111011"/>
+  <circle cx="85" cy="110" r="6" fill="#e04141"/>
+  <circle cx="105" cy="110" r="6" fill="#e0a941"/>
+  <circle cx="125" cy="110" r="6" fill="#4caf50"/>
+  <rect x="410" y="102" width="108" height="16" rx="8" fill="#3a383a"/>
+
+  <!-- Incident rows -->
+  <g>
+    <rect x="84" y="150" width="432" height="70" rx="8" fill="#ffffff"/>
+    <circle cx="112" cy="185" r="10" fill="#e04141"/>
+    <rect x="136" y="168" width="220" height="12" rx="6" fill="#2F2D2E"/>
+    <rect x="136" y="190" width="160" height="9" rx="4.5" fill="#A8A8A8"/>
+    <rect x="450" y="176" width="42" height="18" rx="9" fill="#e04141"/>
+    <text x="471" y="189" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">8.5</text>
+  </g>
+
+  <g>
+    <rect x="84" y="236" width="432" height="70" rx="8" fill="#ffffff"/>
+    <circle cx="112" cy="271" r="10" fill="#e0a941"/>
+    <rect x="136" y="254" width="240" height="12" rx="6" fill="#2F2D2E"/>
+    <rect x="136" y="276" width="150" height="9" rx="4.5" fill="#A8A8A8"/>
+    <rect x="450" y="262" width="42" height="18" rx="9" fill="#e0a941"/>
+    <text x="471" y="275" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">5.2</text>
+  </g>
+
+  <g>
+    <rect x="84" y="322" width="432" height="70" rx="8" fill="#ffffff"/>
+    <circle cx="112" cy="357" r="10" fill="#4caf50"/>
+    <rect x="136" y="340" width="200" height="12" rx="6" fill="#2F2D2E"/>
+    <rect x="136" y="362" width="170" height="9" rx="4.5" fill="#A8A8A8"/>
+    <rect x="450" y="348" width="42" height="18" rx="9" fill="#4caf50"/>
+    <text x="471" y="361" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">2.1</text>
+  </g>
+
+  <!-- Agent badge -->
+  <rect x="84" y="418" width="150" height="40" rx="20" fill="#ffffff"/>
+  <path d="M 106 438 l 4 10 l 10 4 l -10 4 l -4 10 l -4 -10 l -10 -4 l 10 -4 z" fill="#2F2D2E" transform="translate(0,-14)"/>
+  <text x="150" y="443" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2F2D2E" text-anchor="middle">AI Agent</text>
+</svg>
