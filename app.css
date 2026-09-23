@@ -269,8 +269,11 @@ header .social li a:hover{
 .about-profile{
     display: flex;
     justify-content: space-between;
-    margin-right: 20%;
-    margin-left: 20%;
+    gap: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 87%;
+    max-width: 900px;
 }
 
 .col-items-about-profile{
@@ -357,6 +360,8 @@ header .social li a:hover{
         display: block;
         margin-left: 5%;
         margin-right: 5%;
+        width: 90%;
+        max-width: none;
     }
     .col-items-about-profile{
         width: 100%;
