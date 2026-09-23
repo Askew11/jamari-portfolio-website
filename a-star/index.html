@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A* Pathfinding Visualizer</title>
+    <meta name="description" content="Place a start and goal, draw walls, and watch the A* algorithm find the shortest path.">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="p5.min.js"></script>
+  </head>
+
+  <body>
+    <header class="top">
+      <h1>A* Pathfinding</h1>
+      <p class="sub">Place <b>A</b> and <b>B</b>, draw some walls, then watch A* find the shortest route.</p>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="Controls">
+        <div class="group" aria-label="Tool">
+          <button class="tool" data-tool="wall" aria-pressed="true" title="Draw walls (W)">Walls <kbd>W</kbd></button>
+          <button class="tool" data-tool="erase" aria-pressed="false" title="Erase walls (E)">Erase <kbd>E</kbd></button>
+          <button class="tool" data-tool="start" aria-pressed="false" title="Place start (A)"><span class="dot dot-a">A</span> Start</button>
+          <button class="tool" data-tool="end" aria-pressed="false" title="Place goal (B)"><span class="dot dot-b">B</span> Goal</button>
+        </div>
+
+        <div class="group">
+          <button id="run" class="primary" title="Space">Find path</button>
+          <button id="step" title="Advance one node (S)">Step</button>
+          <button id="clearPath" title="Clear the search (C)">Clear path</button>
+        </div>
+
+        <div class="group">
+          <button id="random">Random walls</button>
+          <button id="maze">Maze</button>
+          <button id="clearWalls">Clear walls</button>
+        </div>
+
+        <div class="group options">
+          <label class="check"><input type="checkbox" id="diagonal" checked> Diagonal moves</label>
+          <label class="speed">Speed <input type="range" id="speed" min="1" max="10" value="6"></label>
+        </div>
+      </section>
+
+      <div id="stage"></div>
+
+      <section class="footer" id="footer">
+        <p id="status" role="status" aria-live="polite"></p>
+        <dl class="stats">
+          <div><dt>Visited</dt><dd id="statVisited">0</dd></div>
+          <div><dt>Frontier</dt><dd id="statFrontier">0</dd></div>
+          <div><dt>Path</dt><dd id="statPath">—</dd></div>
+        </dl>
+        <ul class="legend">
+          <li><span class="swatch sw-start"></span>Start</li>
+          <li><span class="swatch sw-end"></span>Goal</li>
+          <li><span class="swatch sw-wall"></span>Wall</li>
+          <li><span class="swatch sw-open"></span>Frontier (open set)</li>
+          <li><span class="swatch sw-closed"></span>Explored (closed set)</li>
+          <li><span class="swatch sw-path"></span>Path</li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="sketch.js"></script>
+  </body>
+</html>
