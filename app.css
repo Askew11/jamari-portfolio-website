@@ -307,6 +307,7 @@ header .social li a:hover{
 .info-list{
     list-style: none;
     margin-left: 0;
+    padding-left: 0;
 }
 .col-items-about-profile h3{
     color: black;
@@ -411,6 +412,10 @@ header .social li a:hover{
     margin-right: 25px; /* Adjust the right margin as needed */
 }
 
+.profile-contact a:last-child {
+    margin-right: 0;
+}
+
 
 .DownloadCv, .hireMeButton {
     display: inline-block;
@@ -428,6 +433,8 @@ header .social li a:hover{
 
 .skill-bars {
     color: #000;
+    list-style: none;
+    padding-left: 0;
   }
 
 .progress {
