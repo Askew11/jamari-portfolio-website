@@ -830,6 +830,7 @@ header .social li a:hover{
     position: relative;
     height: 300px;
     width: 100%;
+    object-fit: cover;
   }
 
   .modal-content .description{
