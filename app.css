@@ -288,9 +288,6 @@ header .social li a:hover{
     transition: opacity 0.5s, transform 0.5s;
 
 }
-.col-items-about-profile .skills{
-    margin-left: 25px;
-}
 .col-items-about-profile p a{
     color: rgb(95, 95, 113);
     transition: color 0.3s ease;
@@ -381,12 +378,8 @@ header .social li a:hover{
         margin-left: 0;
     }
 
-    .col-items-about-profile .skills{
-        margin-left: 0;
-    }
-    .skill-bars li{
-        width: 100%;
-        margin-left: 0;
+    .skill-tags{
+        justify-content: center;
     }
 
     .profile-contact{
@@ -431,82 +424,37 @@ header .social li a:hover{
 }
 
 
-.skill-bars {
-    color: #000;
+.skill-group{
+    margin-bottom: 1.5rem;
+}
+
+.skill-group h4{
+    font-family: 'opensans-bold', sans-serif;
+    color: #313131;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 0 0 0.6rem 0;
+}
+
+.skill-tags{
     list-style: none;
     padding-left: 0;
-  }
-
-.progress {
-    position: relative;
-    height: 10px; /* Reduced height for the percentage line */
-    background-color: #000; /* Black background color for the entire line */
-    margin-bottom: 10%;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.progress .percentage-fill {
-    height: 100%;
-    background-color: var(--mainColor); /* Orange fill color */
-}
-
-.progress .percentage-text {
-    position: absolute;
-    top: -35px; 
-    left: 75%;
-    transform: translateX(-50%);
-    background-color: black; 
-    color: #fff; 
-    font-size: x-small;
-    padding: 5px 6px; 
-    border-radius: 5px; 
-}
-.progress .percentage-text60 {
-    position: absolute;
-    top: -35px;
-    left: 60%;
-    transform: translateX(-50%);
-    background-color: black; 
-    color: #fff; 
-    font-size: x-small;
-    padding: 5px 6px; 
-    border-radius: 5px; 
-}
-
-.progress .percentage-text60::before {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
-    border-top-color: black;
-}
-.progress .percentage-text::before {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
-    border-top-color: black;
-}
-
-.progress span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #000; /* Text color */
-}
-
-.percent75 {
-    background: linear-gradient(to right, rgb(255, 255, 255) 0%, var(--mainColor) 75%, #000 75%, #000 100%);
-    
-}
-
-.percent60 {
-    border-radius: 5%;
-    background: linear-gradient(to right, rgb(255, 255, 255) 0%, var(--mainColor) 60%, #000 60%, #000 100%);
+.skill-tags li{
+    font-family: -apple-system, Arial, sans-serif;
+    font-size: 13px;
+    color: #313131;
+    background-color: rgba(204, 158, 224, 0.18);
+    border: 1px solid var(--mainColor);
+    border-radius: 999px;
+    padding: 4px 12px;
 }
 
 /*experiences section */
