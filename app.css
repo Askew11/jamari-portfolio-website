@@ -339,6 +339,7 @@ header .social li a:hover{
     }
 
     .information .lead{
+        width: 100%;
         margin-left: 0;
     }
 
