@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#2F2D2E"/>
+
+  <!-- Phone frame -->
+  <rect x="185" y="70" width="230" height="460" rx="28" fill="#161415"/>
+  <rect x="199" y="92" width="202" height="392" rx="6" fill="#1c1b1c"/>
+
+  <!-- Breathing circle -->
+  <circle cx="300" cy="240" r="80" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.35"/>
+  <circle cx="300" cy="240" r="58" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.55"/>
+  <circle cx="300" cy="240" r="36" fill="#ffffff" opacity="0.9"/>
+
+  <!-- Mood tracker row -->
+  <rect x="219" y="352" width="162" height="14" rx="7" fill="#3a383a"/>
+  <rect x="219" y="378" width="110" height="10" rx="5" fill="#3a383a"/>
+
+  <g fill="#e0a941">
+    <circle cx="235" cy="410" r="10"/>
+  </g>
+  <g fill="#4caf50">
+    <circle cx="265" cy="410" r="10"/>
+  </g>
+  <g fill="#ffffff" opacity="0.85">
+    <circle cx="295" cy="410" r="10"/>
+  </g>
+  <g fill="#3a383a">
+    <circle cx="325" cy="410" r="10"/>
+    <circle cx="355" cy="410" r="10"/>
+  </g>
+
+  <!-- Bottom tab bar -->
+  <rect x="199" y="450" width="202" height="34" fill="#111011"/>
+  <circle cx="245" cy="467" r="6" fill="#ffffff"/>
+  <circle cx="300" cy="467" r="6" fill="#ffffff" opacity="0.4"/>
+  <circle cx="355" cy="467" r="6" fill="#ffffff" opacity="0.4"/>
+
+  <!-- Calm accent sparkles -->
+  <g fill="#ffffff">
+    <path d="M 452 165 l 6 16 l 16 6 l -16 6 l -6 16 l -6 -16 l -16 -6 l 16 -6 z"/>
+    <path d="M 128 420 l 4 11 l 11 4 l -11 4 l -4 11 l -4 -11 l -11 -4 l 11 -4 z"/>
+  </g>
+</svg>
