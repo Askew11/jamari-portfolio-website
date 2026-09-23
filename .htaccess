@@ -1,0 +1,3 @@
+# Hostinger's Git deploy clones the repo into public_html, including the
+# .git folder; return 404 for it (and .gitignore) instead of serving it.
+RedirectMatch 404 /\.git
