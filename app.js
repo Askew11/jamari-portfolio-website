@@ -30,6 +30,11 @@ document.addEventListener("DOMContentLoaded", function () {
             activeSection = 'id-home';
         }
 
+        // On tall screens the page runs out before Contact's top reaches the menu, so the bottom counts as Contact.
+        if (window.innerHeight + scrollPosition >= document.documentElement.scrollHeight - 2) {
+            activeSection = 'id-contact';
+        }
+
         return activeSection;
     }
 
