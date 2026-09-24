@@ -120,6 +120,21 @@ header .navbar li:nth-child(5).active a{
     color: var(--mainColor);
 }
 
+/* Link to the desktop edition, styled as a pill like the header's "Try desktop mode" button */
+header .navbar li.nav-desktop a{
+    margin: 14px 0;
+    padding: 0 14px;
+    line-height: 30px;
+    border: 1px solid var(--mainColor);
+    border-radius: 999px;
+    background: rgba(204, 158, 224, .15);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+header .navbar li.nav-desktop a:hover{
+    background: var(--mainColor);
+    color: #000;
+}
+
 
 /*Banner items*/
 
@@ -211,6 +226,11 @@ header .desktop-mode:focus-visible {
 @media screen and (max-width: 600px){
     .navbar a:last-child{
         margin-left: -25px;
+    }
+
+    /* Phones already have the header button, and a sixth item would add a third menu row */
+    header .navbar li.nav-desktop{
+        display: none;
     }
 
     header .banner-text h1{
