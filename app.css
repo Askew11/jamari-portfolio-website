@@ -187,6 +187,27 @@ header .social li a:hover{
     color: var(--mainColor);
 }
 
+header .desktop-mode {
+    display: inline-block;
+    padding: 10px 22px;
+    border: 1px solid var(--mainColor);
+    border-radius: 999px;
+    background: rgba(204, 158, 224, .15);
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: .5px;
+    text-decoration: none;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, .5);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header .desktop-mode:hover,
+header .desktop-mode:focus-visible {
+    background: var(--mainColor);
+    color: #000;
+    text-shadow: none;
+}
+
 @media screen and (max-width: 600px){
     .navbar a:last-child{
         margin-left: -25px;
