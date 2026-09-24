@@ -1,5 +1,6 @@
 /* Desktop edition: customizable desktop icons and dock.
-   Computers: drag icons around a snapping grid, drag apps into, within and out of the dock, right-click for menus.
+   Computers: drag icons around a snapping grid, drag apps into and within the dock, drag them off the dock onto
+   the desktop, and right-click for menus.
    Phones: press and hold an icon to enter edit mode, then drag to rearrange the home screen and dock.
    Settings has a Desktop & Dock checklist that does the same without dragging. Saved in localStorage. */
 (function () {
@@ -351,11 +352,11 @@
 
     /* ---------------- Sortable drag (dock on computers, everything on phones) ---------------- */
 
-    // opts: lists (uls it may move between), accept(ul, li), removable (drag above the dock to remove),
-    // immediate (start without waiting for movement), onDrop(removed)
+    // opts: lists (uls it may move between), accept(ul, li), immediate (start without waiting for movement),
+    // onDrop() after a reorder, onOut(x, y) when dragged up off the dock (the ghost turns into a desktop icon)
     function sortDrag(e, li, opts) {
         var pid = e.pointerId, sx = e.clientX, sy = e.clientY;
-        var dragging = false, removing = false, ghost = null;
+        var dragging = false, outside = false, ghost = null, deskGhost = null;
 
         function begin() {
             dragging = dragActive = true;
@@ -368,6 +369,12 @@
             ghost.style.width = r.width + 'px';
             ghost.style.setProperty('--dock-icon', getComputedStyle(dockEl).getPropertyValue('--dock-icon'));
             document.body.appendChild(ghost);
+            if (opts.onOut) {
+                deskGhost = makeItem(li.dataset.id, 'desk-icon', APPS[li.dataset.id].label);
+                deskGhost.className = 'drag-ghost desk-ghost';
+                deskGhost.hidden = true;
+                document.body.appendChild(deskGhost);
+            }
             li.classList.add('placeholder');
             document.body.classList.add('dragging');
             try { li.setPointerCapture(pid); } catch (err) {}
@@ -382,11 +389,19 @@
             }
             ghost.style.transform = 'translate(' + (ev.clientX - sx) + 'px,' + (ev.clientY - sy) + 'px)';
 
-            if (opts.removable) {
-                removing = ev.clientY < dockEl.getBoundingClientRect().top - 40;
-                li.classList.toggle('collapsed', removing);
-                ghost.classList.toggle('removing', removing);
-                if (removing) return;
+            if (opts.onOut) {
+                var out = ev.clientY < dockEl.getBoundingClientRect().top - 40;
+                if (out !== outside) {
+                    outside = out;
+                    li.classList.toggle('collapsed', out);
+                    ghost.hidden = out;
+                    deskGhost.hidden = !out;
+                }
+                if (outside) {
+                    deskGhost.style.left = (ev.clientX - 46) + 'px';
+                    deskGhost.style.top = (ev.clientY - 30) + 'px';
+                    return;
+                }
             }
 
             var target = opts.lists.filter(function (ul) {
@@ -407,16 +422,10 @@
             suppressNextClick();
             document.body.classList.remove('dragging');
             li.classList.remove('placeholder', 'collapsed');
-            var removed = removing && ev.type !== 'pointercancel';
-            if (removed) {
-                ghost.animate([{ opacity: 0.55, transform: ghost.style.transform + ' scale(1)' },
-                               { opacity: 0, transform: ghost.style.transform + ' scale(1.6)' }], { duration: 220, easing: 'ease-out' });
-                setTimeout(function () { ghost.remove(); }, 200);
-                li.remove();
-            } else {
-                ghost.remove();
-            }
-            opts.onDrop(removed);
+            ghost.remove();
+            if (deskGhost) deskGhost.remove();
+            if (outside && ev.type !== 'pointercancel') opts.onOut(ev.clientX, ev.clientY);
+            else opts.onDrop();
         }
 
         window.addEventListener('pointermove', move);
@@ -432,12 +441,12 @@
         if (e.button !== 0) return;
         sortDrag(e, li, {
             lists: [dockUl],
-            removable: true,
             onDrop: function () {
                 state.dock = ids(dockUl);
                 save();
                 render();
-            }
+            },
+            onOut: function (x, y) { dockToDesktop(li.dataset.id, x, y); }
         });
     });
 
@@ -504,7 +513,51 @@
         window.addEventListener('pointercancel', cleanup);
     }
 
-    /* ---------------- Layout changes (used by menus and Settings) ---------------- */
+    /* ---------------- Layout changes (used by drags, menus and Settings) ---------------- */
+
+    // Grid cell under a point on screen (the desktop-icon ghost hangs just below the pointer).
+    function cellAt(x, y) {
+        var g = grid(), r = iconsUl.getBoundingClientRect();
+        return {
+            c: clamp(Math.floor((g.w - (x - r.left)) / CW), 0, g.cols - 1),
+            r: clamp(Math.floor((y + 17 - r.top) / CH), 0, g.rows - 1)
+        };
+    }
+
+    function occupantOf(cell, except) {
+        return Object.keys(state.pos || {}).filter(function (id) {
+            return id !== except && state.pos[id].c === cell.c && state.pos[id].r === cell.r;
+        })[0] || null;
+    }
+
+    function nearestFree(cell) {
+        var g = grid(), best = cell, bestD = Infinity;
+        for (var c = 0; c < g.cols; c++) {
+            for (var r = 0; r < g.rows; r++) {
+                var d = Math.pow(c - cell.c, 2) + Math.pow(r - cell.r, 2);
+                if (d < bestD && !occupantOf({ c: c, r: r })) { bestD = d; best = { c: c, r: r }; }
+            }
+        }
+        return best;
+    }
+
+    // Dragged off the dock: the app leaves the dock and lands on the desktop where it was dropped.
+    function dockToDesktop(id, x, y) {
+        var i = state.dock.indexOf(id);
+        if (i > -1) state.dock.splice(i, 1);
+        materialize();
+        var cell = cellAt(x, y);
+        var occupant = occupantOf(cell, id);
+        if (state.desk.indexOf(id) > -1) {
+            if (occupant) state.pos[occupant] = state.pos[id];     // swap with the icon already there
+        } else {
+            state.desk.push(id);
+            if (occupant) cell = nearestFree(cell);
+        }
+        state.pos[id] = cell;
+        save();
+        render();
+    }
 
     function addToDock(id, index) {
         var list = dockList();
@@ -680,7 +733,7 @@
         var dockFull = p && state.phoneDock.length >= PHONE_DOCK_MAX;
         hint.textContent = p
             ? 'Press and hold an icon on the home screen to rearrange it, or pick apps here. The dock holds up to 4 apps.'
-            : 'Drag icons to rearrange them, drag apps into or out of the dock, right-click for more options, or pick apps here.';
+            : 'Drag icons to rearrange them, drag apps between the desktop and the dock, right-click for more options, or pick apps here.';
 
         var focused = document.activeElement && table.contains(document.activeElement) ? document.activeElement : null;
         var focusKey = focused ? focused.dataset.place + ':' + focused.dataset.id : null;

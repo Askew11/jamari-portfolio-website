@@ -1569,21 +1569,8 @@ body.dragging { user-select: none; }
 .drag-ghost .dock-btn,
 .drag-ghost .desk-icon { transform: scale(1.06); }
 .drag-ghost .tip { display: none; }
-.drag-ghost.removing { opacity: 0.55; }
-.drag-ghost.removing::after {
-    content: "Remove";
-    position: absolute;
-    left: 50%;
-    top: 100%;
-    margin-top: 6px;
-    transform: translateX(-50%);
-    padding: 2px 8px;
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    font-size: 11px;
-    white-space: nowrap;
-}
+.drag-ghost[hidden] { display: none; }
+.desk-ghost { width: 92px; opacity: 0.9; }
 .placeholder { visibility: hidden; }
 .collapsed { display: none !important; }
 .dock-slot {
