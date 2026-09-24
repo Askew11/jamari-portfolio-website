@@ -79,6 +79,7 @@
             try {
                 localStorage.removeItem('jb-settings');
                 localStorage.removeItem('jb-notes');
+                localStorage.removeItem('jb-layout');
                 sessionStorage.removeItem('jb-booted');
             } catch (e) {}
             window.location.reload();

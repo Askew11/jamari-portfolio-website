@@ -451,34 +451,9 @@
         }
     });
 
-    // Desktop icons: click selects, double-click opens. Keyboard (Enter/Space) and touch open straight away.
-    var lastPointerType = 'mouse';
-    $$('.desk-icon').forEach(function (icon) {
-        icon.addEventListener('pointerdown', function (e) { lastPointerType = e.pointerType; });
-        icon.addEventListener('click', function (e) {
-            selectIcon(icon);
-            var direct = e.detail === 0 || lastPointerType !== 'mouse' || isPhone();
-            if (icon.dataset.open) {
-                if (direct) openApp(icon.dataset.open, icon);
-            } else if (!direct) {
-                e.preventDefault();       // a single mouse click on a link icon only selects it
-            }
-        });
-        icon.addEventListener('dblclick', function () {
-            if (icon.dataset.open) openApp(icon.dataset.open, icon);
-            else window.location.href = icon.href;
-        });
-    });
-
-    function selectIcon(icon) {
-        $$('.desk-icon.selected').forEach(function (el) { if (el !== icon) el.classList.remove('selected'); });
-        if (icon) icon.classList.add('selected');
-    }
-
-    // Clicking empty wallpaper clears the selection and unfocuses windows.
+    // Clicking empty wallpaper unfocuses windows. (Desktop icons themselves are handled by layout.js.)
     $('#desktop').addEventListener('pointerdown', function (e) {
         if (e.target.closest('.window, .desk-icon')) return;
-        selectIcon(null);
         blurAll();
     });
 
@@ -590,7 +565,8 @@
         open: openApp,
         close: function (app) { if (windows[app]) requestClose(windows[app]); },
         isPhone: isPhone,
-        window: function (app) { return windows[app]; }
+        window: function (app) { return windows[app]; },
+        sync: function () { syncChrome(); }          // refresh dock "running" dots after the dock is re-rendered
     };
 
     /* ---------------- Boot screen, then first window ---------------- */

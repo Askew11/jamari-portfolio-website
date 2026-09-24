@@ -1522,6 +1522,161 @@ body.dragging { user-select: none; }
 .switch input:focus-visible + .switch-track { outline: 2px solid var(--focus); outline-offset: 2px; }
 .settings p { line-height: 1.6; }
 
+/* ---------- Customizable layout (layout.js) ---------- */
+
+/* Computers: icons sit at saved grid spots instead of flowing in columns. */
+.desk-icons.free {
+    display: block;
+    left: 12px;
+    direction: ltr;
+    pointer-events: none;
+}
+.desk-icons.free li {
+    position: absolute;
+    width: 92px;
+    pointer-events: auto;
+    transition: left 0.18s ease, top 0.18s ease;
+}
+.desk-icons.free li.dragging {
+    z-index: 5;
+    transition: none;
+    opacity: 0.85;
+}
+
+.desk-icon,
+.dock-btn {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+@media (min-width: 768px) {
+    .desk-icon,
+    .dock-btn { touch-action: none; }
+}
+
+/* The dock hides its divider when nothing is minimized, and hides itself when emptied. */
+.dock-sep:has(+ .dock-min:empty) { display: none; }
+.dock:not(:has(li)) { display: none; }
+
+/* Dragging */
+.drag-ghost {
+    position: fixed;
+    z-index: 9900;
+    margin: 0;
+    list-style: none;
+    pointer-events: none;
+}
+.drag-ghost .dock-btn,
+.drag-ghost .desk-icon { transform: scale(1.06); }
+.drag-ghost .tip { display: none; }
+.drag-ghost.removing { opacity: 0.55; }
+.drag-ghost.removing::after {
+    content: "Remove";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    margin-top: 6px;
+    transform: translateX(-50%);
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 11px;
+    white-space: nowrap;
+}
+.placeholder { visibility: hidden; }
+.collapsed { display: none !important; }
+.dock-slot {
+    width: var(--dock-icon);
+    height: var(--dock-icon);
+    border-radius: 25%;
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Right-click menu (reuses the menu bar's dropdown look) */
+.dropdown.ctx-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9800;
+    min-width: 210px;
+}
+
+/* Phone edit mode: press and hold an icon, icons wiggle, tap Done to finish. */
+.edit-done {
+    position: fixed;
+    top: 3px;
+    right: 12px;
+    z-index: 9600;
+    padding: 3px 16px;
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    color: #1d1b22;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.edit-hint { display: none; }
+.editing .classic-link { visibility: hidden; }
+.editing .wallpaper-title .show-phone { display: none; }
+.editing .wallpaper-title .edit-hint { display: inline; }
+.editing .desk-icons li,
+.editing .dock-apps li { touch-action: none; }
+.editing .desk-icon .app-icon,
+.editing .dock-btn .app-icon { animation: jiggle 0.3s ease-in-out infinite alternate; }
+.editing .desk-icons li:nth-child(even) .app-icon,
+.editing .dock-apps li:nth-child(even) .app-icon { animation-delay: -0.15s; }
+@keyframes jiggle {
+    from { transform: rotate(-2deg); }
+    to { transform: rotate(2deg); }
+}
+
+/* Settings: Desktop & Dock checklist */
+.layout-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.layout-table th {
+    padding: 4px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: left;
+    color: var(--muted);
+}
+.layout-table td {
+    padding: 5px 6px;
+    border-top: 1px solid var(--line);
+}
+.layout-table .c {
+    width: 96px;
+    text-align: center;
+}
+.layout-table .app-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    vertical-align: middle;
+    box-shadow: none;
+}
+.layout-table input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+.layout-table input:disabled { cursor: not-allowed; }
+
+@media (prefers-reduced-motion: reduce) {
+    .editing .desk-icon .app-icon,
+    .editing .dock-btn .app-icon { animation: none; }
+    .desk-icons.free li { transition: none; }
+}
+
 /* ---------- Touch devices: bigger window buttons ---------- */
 
 @media (pointer: coarse) {
@@ -1594,10 +1749,8 @@ body.dragging { user-select: none; }
         border-radius: 28px;
     }
     .dock-apps { flex: 1; justify-content: space-around; }
-    .dock-apps li:not([data-fav]),
     .dock-sep,
-    .dock-min,
-    .dock-extra { display: none !important; }
+    .dock-min { display: none !important; }
     .dock-btn { width: 60px; height: auto; }
     .dock-btn .app-icon { height: 60px; border-radius: 15px; }
     .dock-btn:hover { transform: none; }

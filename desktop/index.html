@@ -24,7 +24,7 @@
 
         <link rel="icon" type="image/x-icon" href="/favicon.ico">
         <!-- Hostinger caches CSS/JS for 7 days; bump ?v= whenever desktop.css or desktop.js changes -->
-        <link rel="stylesheet" href="desktop.css?v=1">
+        <link rel="stylesheet" href="desktop.css?v=2">
 
         <script>
             // Runs before first paint: mark JS as on, apply saved theme/wallpaper, and skip the boot screen if it already played.
@@ -127,7 +127,7 @@
             <div class="wallpaper-title">
                 <h1>Jamari Benologa</h1>
                 <p class="role">Tech Architecture Analyst at Accenture</p>
-                <p class="hint"><span class="hide-phone">Double-click an icon to open it, or pick an app from the dock.</span><span class="show-phone">Tap an app to open it.</span></p>
+                <p class="hint"><span class="hide-phone">Double-click an icon to open it, or pick an app from the dock.</span><span class="show-phone">Tap an app to open it.</span><span class="edit-hint">Drag icons to rearrange them, then tap Done.</span></p>
             </div>
 
             <!-- Desktop icons (a home-screen grid on phones; data-fav items live in the phone dock, data-phone-only items sit in the dock on computers) -->
@@ -745,6 +745,13 @@
                             <label><input type="radio" name="theme" value="dark">Dark</label>
                         </div>
 
+                        <h4 class="section-label" id="layoutSection">Desktop &amp; Dock</h4>
+                        <p class="muted" id="layoutHint"></p>
+                        <table class="layout-table" id="layoutTable" aria-labelledby="layoutSection"></table>
+                        <div class="btn-row">
+                            <button type="button" class="btn" data-layout="reset">Reset icons &amp; dock</button>
+                        </div>
+
                         <h4 class="section-label">Startup</h4>
                         <label class="switch"><input type="checkbox" name="boot"><span class="switch-track"></span>Play the startup animation when you visit</label>
 
@@ -759,7 +766,7 @@
             </section>
         </main>
 
-        <!-- Dock (four favourites on phones) -->
+        <!-- Dock (four favourites on phones). layout.js re-renders it from the visitor's saved layout. -->
         <nav class="dock" aria-label="Dock">
             <ul class="dock-apps">
                 <li data-fav><button class="dock-btn" data-open="about" aria-label="About Me"><span class="app-icon ic-about"><svg class="gl"><use href="#i-user"/></svg></span><span class="tip">About Me</span></button></li>
@@ -774,15 +781,14 @@
                 <li><button class="dock-btn" data-open="notes" aria-label="Notes"><span class="app-icon ic-notes"><svg class="gl"><use href="#i-notes"/></svg></span><span class="tip">Notes</span></button></li>
                 <li><button class="dock-btn" data-open="calculator" aria-label="Calculator"><span class="app-icon ic-calculator"><svg class="gl"><use href="#i-calc"/></svg></span><span class="tip">Calculator</span></button></li>
                 <li><button class="dock-btn" data-open="settings" aria-label="Settings"><span class="app-icon ic-settings"><svg class="gl"><use href="#i-sliders"/></svg></span><span class="tip">Settings</span></button></li>
+                <li><a class="dock-btn" href="/" aria-label="Classic view"><span class="app-icon ic-classic"><svg class="gl"><use href="#i-window"/></svg></span><span class="tip">Classic view</span></a></li>
             </ul>
             <span class="dock-sep" aria-hidden="true"></span>
             <ul class="dock-min" id="dockMin" aria-label="Minimized windows"></ul>
-            <ul class="dock-extra">
-                <li><a class="dock-btn" href="/" aria-label="Classic view"><span class="app-icon ic-classic"><svg class="gl"><use href="#i-window"/></svg></span><span class="tip">Classic view</span></a></li>
-            </ul>
         </nav>
 
-        <script src="desktop.js?v=1"></script>
-        <script src="apps.js?v=1"></script>
+        <script src="desktop.js?v=2"></script>
+        <script src="apps.js?v=2"></script>
+        <script src="layout.js?v=1"></script>
     </body>
 </html>
