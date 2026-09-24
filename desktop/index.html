@@ -27,11 +27,15 @@
         <link rel="stylesheet" href="desktop.css?v=1">
 
         <script>
-            // Runs before first paint: mark JS as on, and skip the boot screen if it already played this session.
+            // Runs before first paint: mark JS as on, apply saved theme/wallpaper, and skip the boot screen if it already played.
             (function () {
-                var c = 'js';
+                var root = document.documentElement, c = 'js', s = {};
+                try { s = JSON.parse(localStorage.getItem('jb-settings')) || {}; } catch (e) {}
                 try { if (sessionStorage.getItem('jb-booted') === '1') c += ' booted'; } catch (e) {}
-                document.documentElement.className = c;
+                if (s.boot === false) c += ' booted';
+                if (s.theme === 'light' || s.theme === 'dark') root.setAttribute('data-theme', s.theme);
+                if (s.wallpaper) root.setAttribute('data-wallpaper', s.wallpaper);
+                root.className = c;
             })();
         </script>
     </head>
@@ -54,6 +58,19 @@
             <symbol id="i-back" viewBox="0 0 24 24"><path d="m14.5 5-7 7 7 7"/></symbol>
             <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z" fill="currentColor"/></symbol>
             <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></symbol>
+            <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.6 5.3 3.6 8.5s-1.2 6-3.6 8.5c-2.4-2.5-3.6-5.3-3.6-8.5s1.2-6 3.6-8.5z"/></symbol>
+            <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m7.5 10 2.5 2-2.5 2M12.5 14.5h4"/></symbol>
+            <symbol id="i-notes" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8.5 8h7M8.5 11.5h7M8.5 15h4"/></symbol>
+            <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7"/><path d="M8.8 12h.01M12 12h.01M15.2 12h.01M8.8 15.3h.01M12 15.3h.01M15.2 15.3h.01M8.8 18.3h.01M12 18.3h.01M15.2 18.3h.01" stroke-width="2.4"/></symbol>
+            <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h8.5M17.5 7H20M4 12h2.5M11.5 12H20M4 17h10.5M19.5 17h.5"/><circle cx="15" cy="7" r="2.3"/><circle cx="9" cy="12" r="2.3"/><circle cx="17" cy="17" r="2.3"/></symbol>
+            <symbol id="i-forward" viewBox="0 0 24 24"><path d="m9.5 5 7 7-7 7"/></symbol>
+            <symbol id="i-reload" viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.05-4.95M19 4.5V9h-4.5"/></symbol>
+            <symbol id="i-home" viewBox="0 0 24 24"><path d="M4.5 11 12 4.5l7.5 6.5M6.5 9.5v10h11v-10"/></symbol>
+            <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+            <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></symbol>
+            <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 12.5h8L17 7"/></symbol>
+            <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 5.5A1.5 1.5 0 0 1 6.5 4H19v13H6.5A1.5 1.5 0 0 0 5 18.5zM5 18.5A1.5 1.5 0 0 0 6.5 20H19"/><path d="M9 8h6"/></symbol>
+            <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 20.5s-6-5.4-6-10.5a6 6 0 0 1 12 0c0 5.1-6 10.5-6 10.5z"/><circle cx="12" cy="10" r="2.2"/></symbol>
             <symbol id="g-close" viewBox="0 0 14 14"><path d="M4.2 4.2l5.6 5.6M9.8 4.2l-5.6 5.6"/></symbol>
             <symbol id="g-min" viewBox="0 0 14 14"><path d="M3.8 7h6.4"/></symbol>
             <symbol id="g-max" viewBox="0 0 14 14"><path d="M7 3.8v6.4M3.8 7h6.4"/></symbol>
@@ -87,6 +104,12 @@
                         <li><button data-open="resume">Resume</button></li>
                         <li><button data-open="contact">Contact</button></li>
                         <li class="sep" role="separator"></li>
+                        <li><button data-open="browser">Browser</button></li>
+                        <li><button data-open="terminal">Terminal</button></li>
+                        <li><button data-open="notes">Notes</button></li>
+                        <li><button data-open="calculator">Calculator</button></li>
+                        <li><button data-open="settings">Settings…</button></li>
+                        <li class="sep" role="separator"></li>
                         <li><a href="/Jamari_Benologa_Resume.pdf" download>Download resume (PDF)</a></li>
                         <li><a href="/">Classic view</a></li>
                     </ul>
@@ -107,7 +130,7 @@
                 <p class="hint"><span class="hide-phone">Double-click an icon to open it, or pick an app from the dock.</span><span class="show-phone">Tap an app to open it.</span></p>
             </div>
 
-            <!-- Desktop icons (a home-screen grid on phones; items marked data-fav live in the phone dock instead) -->
+            <!-- Desktop icons (a home-screen grid on phones; data-fav items live in the phone dock, data-phone-only items sit in the dock on computers) -->
             <ul class="desk-icons" aria-label="Desktop">
                 <li data-fav><button class="desk-icon" data-open="about"><span class="app-icon ic-about"><svg class="gl"><use href="#i-user"/></svg></span><span class="label">About Me</span></button></li>
                 <li><button class="desk-icon" data-open="experience"><span class="app-icon ic-experience"><svg class="gl"><use href="#i-briefcase"/></svg></span><span class="label">Experience</span></button></li>
@@ -116,6 +139,11 @@
                 <li><button class="desk-icon" data-open="snake"><span class="app-icon ic-snake"><svg class="gl"><use href="#i-snake"/></svg></span><span class="label">Snake</span></button></li>
                 <li><button class="desk-icon" data-open="astar"><span class="app-icon ic-astar"><svg class="gl"><use href="#i-astar"/></svg></span><span class="label">A* Pathfinding</span></button></li>
                 <li data-fav><button class="desk-icon" data-open="contact"><span class="app-icon ic-contact"><svg class="gl"><use href="#i-mail"/></svg></span><span class="label">Contact</span></button></li>
+                <li data-phone-only><button class="desk-icon" data-open="browser"><span class="app-icon ic-browser"><svg class="gl"><use href="#i-globe"/></svg></span><span class="label">Browser</span></button></li>
+                <li data-phone-only><button class="desk-icon" data-open="terminal"><span class="app-icon ic-terminal"><svg class="gl"><use href="#i-terminal"/></svg></span><span class="label">Terminal</span></button></li>
+                <li data-phone-only><button class="desk-icon" data-open="notes"><span class="app-icon ic-notes"><svg class="gl"><use href="#i-notes"/></svg></span><span class="label">Notes</span></button></li>
+                <li data-phone-only><button class="desk-icon" data-open="calculator"><span class="app-icon ic-calculator"><svg class="gl"><use href="#i-calc"/></svg></span><span class="label">Calculator</span></button></li>
+                <li data-phone-only><button class="desk-icon" data-open="settings"><span class="app-icon ic-settings"><svg class="gl"><use href="#i-sliders"/></svg></span><span class="label">Settings</span></button></li>
                 <li><a class="desk-icon" href="/"><span class="app-icon ic-classic"><svg class="gl"><use href="#i-window"/></svg></span><span class="label">Classic view</span></a></li>
             </ul>
 
@@ -548,6 +576,187 @@
                     </div>
                 </div>
             </section>
+
+            <!-- ============ Utility apps (behaviour in apps.js) ============ -->
+
+            <!-- Browser -->
+            <section class="window" id="win-browser" data-app="browser" data-w="1060" data-h="720" data-minw="380" data-minh="320" role="dialog" aria-labelledby="t-browser" tabindex="-1" hidden>
+                <div class="titlebar">
+                    <div class="lights">
+                        <button class="light l-close" data-act="close" aria-label="Close"><svg class="gl"><use href="#g-close"/></svg></button>
+                        <button class="light l-min" data-act="min" aria-label="Minimize"><svg class="gl"><use href="#g-min"/></svg></button>
+                        <button class="light l-max" data-act="max" aria-label="Maximize"><svg class="gl"><use href="#g-max"/></svg></button>
+                    </div>
+                    <button class="back" data-act="close"><svg class="gl"><use href="#i-back"/></svg>Back</button>
+                    <h2 class="win-title" id="t-browser">Browser</h2>
+                </div>
+                <div class="win-body browser">
+                    <div class="br-tabs" aria-label="Tabs">
+                        <button class="icon-btn br-newtab" data-br="newtab" aria-label="New tab" title="New tab"><svg class="gl"><use href="#i-plus"/></svg></button>
+                    </div>
+                    <form class="br-bar" role="search">
+                        <button type="button" class="icon-btn" data-br="back" aria-label="Back" title="Back"><svg class="gl"><use href="#i-back"/></svg></button>
+                        <button type="button" class="icon-btn" data-br="forward" aria-label="Forward" title="Forward"><svg class="gl"><use href="#i-forward"/></svg></button>
+                        <button type="button" class="icon-btn" data-br="reload" aria-label="Reload" title="Reload"><svg class="gl"><use href="#i-reload"/></svg></button>
+                        <button type="button" class="icon-btn" data-br="home" aria-label="Start page" title="Start page"><svg class="gl"><use href="#i-home"/></svg></button>
+                        <label class="br-address">
+                            <svg class="gl"><use href="#i-search"/></svg>
+                            <input type="text" name="address" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Search Google or type a web address" aria-label="Search Google or type a web address">
+                        </label>
+                        <button type="button" class="icon-btn" data-br="external" aria-label="Open this page in a real browser tab" title="Open in a new tab"><svg class="gl"><use href="#i-external"/></svg></button>
+                    </form>
+                    <div class="br-views"></div>
+                </div>
+            </section>
+
+            <!-- Browser start page (cloned into each new tab) -->
+            <template id="br-start">
+                <div class="br-start">
+                    <div class="br-start-inner">
+                        <span class="mono mono-md">JB</span>
+                        <h3>Where to next?</h3>
+                        <form class="br-search" role="search">
+                            <svg class="gl"><use href="#i-search"/></svg>
+                            <input type="search" name="q" autocomplete="off" enterkeyhint="search" placeholder="Search Google" aria-label="Search Google">
+                        </form>
+                        <p class="br-section">Jamari's stuff</p>
+                        <div class="br-tiles">
+                            <button class="br-tile" data-url="/snake/"><span class="app-icon ic-snake"><svg class="gl"><use href="#i-snake"/></svg></span>Snake</button>
+                            <button class="br-tile" data-url="/a-star/"><span class="app-icon ic-astar"><svg class="gl"><use href="#i-astar"/></svg></span>A* Pathfinding</button>
+                            <button class="br-tile" data-url="/Jamari_Benologa_Resume.pdf"><span class="app-icon ic-resume"><svg class="gl"><use href="#i-doc"/></svg></span>Resume</button>
+                            <button class="br-tile" data-url="/"><span class="app-icon ic-classic"><svg class="gl"><use href="#i-window"/></svg></span>Classic site</button>
+                            <button class="br-tile" data-url="https://github.com/Askew11"><span class="app-icon ic-github"><svg class="gl"><use href="#i-code"/></svg></span>GitHub<svg class="gl ext" aria-label="opens in a new tab"><use href="#i-external"/></svg></button>
+                            <button class="br-tile" data-url="https://www.linkedin.com/in/jamari-benologa-b12b0227a/"><span class="app-icon ic-linkedin"><svg class="gl"><use href="#i-linkedin"/></svg></span>LinkedIn<svg class="gl ext" aria-label="opens in a new tab"><use href="#i-external"/></svg></button>
+                        </div>
+                        <p class="br-section">Around the web</p>
+                        <div class="br-tiles">
+                            <button class="br-tile" data-url="https://www.google.com/"><span class="app-icon ic-google"><svg class="gl"><use href="#i-search"/></svg></span>Google</button>
+                            <button class="br-tile" data-url="https://en.wikipedia.org/wiki/Special:Random"><span class="app-icon ic-wiki"><svg class="gl"><use href="#i-book"/></svg></span>Random Wikipedia</button>
+                            <button class="br-tile" data-url="https://en.wikipedia.org/wiki/A*_search_algorithm"><span class="app-icon ic-wiki"><svg class="gl"><use href="#i-book"/></svg></span>A* on Wikipedia</button>
+                            <button class="br-tile" data-url="https://www.openstreetmap.org/export/embed.html?bbox=-97.86%2C30.20%2C-97.64%2C30.34&amp;layer=mapnik"><span class="app-icon ic-map"><svg class="gl"><use href="#i-pin"/></svg></span>Map of Austin</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Terminal -->
+            <section class="window term-window" id="win-terminal" data-app="terminal" data-w="720" data-h="460" data-minw="340" data-minh="220" role="dialog" aria-labelledby="t-terminal" tabindex="-1" hidden>
+                <div class="titlebar">
+                    <div class="lights">
+                        <button class="light l-close" data-act="close" aria-label="Close"><svg class="gl"><use href="#g-close"/></svg></button>
+                        <button class="light l-min" data-act="min" aria-label="Minimize"><svg class="gl"><use href="#g-min"/></svg></button>
+                        <button class="light l-max" data-act="max" aria-label="Maximize"><svg class="gl"><use href="#g-max"/></svg></button>
+                    </div>
+                    <button class="back" data-act="close"><svg class="gl"><use href="#i-back"/></svg>Back</button>
+                    <h2 class="win-title" id="t-terminal">Terminal</h2>
+                </div>
+                <div class="win-body term">
+                    <div class="term-out" role="log" aria-label="Terminal output"></div>
+                    <form class="term-line">
+                        <label class="term-prompt" for="term-input">visitor@jamari ~ %</label>
+                        <input id="term-input" type="text" data-autofocus autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send">
+                    </form>
+                </div>
+            </section>
+
+            <!-- Notes -->
+            <section class="window" id="win-notes" data-app="notes" data-w="740" data-h="500" data-minw="340" data-minh="260" role="dialog" aria-labelledby="t-notes" tabindex="-1" hidden>
+                <div class="titlebar">
+                    <div class="lights">
+                        <button class="light l-close" data-act="close" aria-label="Close"><svg class="gl"><use href="#g-close"/></svg></button>
+                        <button class="light l-min" data-act="min" aria-label="Minimize"><svg class="gl"><use href="#g-min"/></svg></button>
+                        <button class="light l-max" data-act="max" aria-label="Maximize"><svg class="gl"><use href="#g-max"/></svg></button>
+                    </div>
+                    <button class="back" data-act="close"><svg class="gl"><use href="#i-back"/></svg>Back</button>
+                    <h2 class="win-title" id="t-notes">Notes</h2>
+                </div>
+                <div class="win-body split">
+                    <div class="notes">
+                        <div class="notes-side">
+                            <div class="notes-tools">
+                                <button class="icon-btn" data-note="new" aria-label="New note" title="New note"><svg class="gl"><use href="#i-plus"/></svg></button>
+                                <button class="icon-btn" data-note="delete" aria-label="Delete this note" title="Delete note"><svg class="gl"><use href="#i-trash"/></svg></button>
+                            </div>
+                            <ul class="notes-list" aria-label="Notes"></ul>
+                        </div>
+                        <textarea class="notes-editor" data-autofocus aria-label="Note text" placeholder="Start typing…"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Calculator -->
+            <section class="window calc-window" id="win-calculator" data-app="calculator" data-w="300" data-h="470" data-minw="240" data-minh="380" role="dialog" aria-labelledby="t-calculator" tabindex="-1" hidden>
+                <div class="titlebar">
+                    <div class="lights">
+                        <button class="light l-close" data-act="close" aria-label="Close"><svg class="gl"><use href="#g-close"/></svg></button>
+                        <button class="light l-min" data-act="min" aria-label="Minimize"><svg class="gl"><use href="#g-min"/></svg></button>
+                        <button class="light l-max" data-act="max" aria-label="Maximize"><svg class="gl"><use href="#g-max"/></svg></button>
+                    </div>
+                    <button class="back" data-act="close"><svg class="gl"><use href="#i-back"/></svg>Back</button>
+                    <h2 class="win-title" id="t-calculator">Calculator</h2>
+                </div>
+                <div class="win-body calc">
+                    <output class="calc-display" aria-live="polite">0</output>
+                    <div class="calc-keys">
+                        <button class="fn" data-k="clear" aria-label="All clear">AC</button>
+                        <button class="fn" data-k="neg" aria-label="Plus minus">±</button>
+                        <button class="fn" data-k="%" aria-label="Percent">%</button>
+                        <button class="op" data-k="/" aria-label="Divide">÷</button>
+                        <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+                        <button class="op" data-k="*" aria-label="Multiply">×</button>
+                        <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+                        <button class="op" data-k="-" aria-label="Subtract">−</button>
+                        <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+                        <button class="op" data-k="+" aria-label="Add">+</button>
+                        <button class="zero" data-k="0">0</button>
+                        <button data-k="." aria-label="Decimal point">.</button>
+                        <button class="op" data-k="=" aria-label="Equals">=</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings -->
+            <section class="window" id="win-settings" data-app="settings" data-w="640" data-h="600" role="dialog" aria-labelledby="t-settings" tabindex="-1" hidden>
+                <div class="titlebar">
+                    <div class="lights">
+                        <button class="light l-close" data-act="close" aria-label="Close"><svg class="gl"><use href="#g-close"/></svg></button>
+                        <button class="light l-min" data-act="min" aria-label="Minimize"><svg class="gl"><use href="#g-min"/></svg></button>
+                        <button class="light l-max" data-act="max" aria-label="Maximize"><svg class="gl"><use href="#g-max"/></svg></button>
+                    </div>
+                    <button class="back" data-act="close"><svg class="gl"><use href="#i-back"/></svg>Back</button>
+                    <h2 class="win-title" id="t-settings">Settings</h2>
+                </div>
+                <div class="win-body">
+                    <form class="pad settings" id="settingsForm">
+                        <h4 class="section-label">Wallpaper</h4>
+                        <div class="wp-grid" role="radiogroup" aria-label="Wallpaper">
+                            <label class="wp-option"><input type="radio" name="wallpaper" value="aurora"><span class="wp-preview wp-aurora"></span>Aurora</label>
+                            <label class="wp-option"><input type="radio" name="wallpaper" value="sunset"><span class="wp-preview wp-sunset"></span>Sunset</label>
+                            <label class="wp-option"><input type="radio" name="wallpaper" value="ocean"><span class="wp-preview wp-ocean"></span>Ocean</label>
+                            <label class="wp-option"><input type="radio" name="wallpaper" value="forest"><span class="wp-preview wp-forest"></span>Forest</label>
+                            <label class="wp-option"><input type="radio" name="wallpaper" value="midnight"><span class="wp-preview wp-midnight"></span>Midnight</label>
+                            <label class="wp-option"><input type="radio" name="wallpaper" value="classic"><span class="wp-preview wp-classic"></span>Classic site</label>
+                        </div>
+
+                        <h4 class="section-label">Appearance</h4>
+                        <div class="seg" role="radiogroup" aria-label="Appearance">
+                            <label><input type="radio" name="theme" value="auto">Auto</label>
+                            <label><input type="radio" name="theme" value="light">Light</label>
+                            <label><input type="radio" name="theme" value="dark">Dark</label>
+                        </div>
+
+                        <h4 class="section-label">Startup</h4>
+                        <label class="switch"><input type="checkbox" name="boot"><span class="switch-track"></span>Play the startup animation when you visit</label>
+
+                        <h4 class="section-label">About this desktop</h4>
+                        <p>Built from scratch with plain HTML, CSS and JavaScript: no frameworks or libraries, just a small window manager, a dock and a handful of apps. Your settings and notes are saved in this browser only.</p>
+                        <div class="btn-row">
+                            <a class="btn" href="https://github.com/Askew11/jamari-portfolio-website" target="_blank" rel="noopener noreferrer"><svg class="gl"><use href="#i-code"/></svg>Source on GitHub</a>
+                            <button type="button" class="btn" data-set="reset">Reset desktop</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
         </main>
 
         <!-- Dock (four favourites on phones) -->
@@ -560,6 +769,11 @@
                 <li><button class="dock-btn" data-open="snake" aria-label="Snake"><span class="app-icon ic-snake"><svg class="gl"><use href="#i-snake"/></svg></span><span class="tip">Snake</span></button></li>
                 <li><button class="dock-btn" data-open="astar" aria-label="A* Pathfinding"><span class="app-icon ic-astar"><svg class="gl"><use href="#i-astar"/></svg></span><span class="tip">A* Pathfinding</span></button></li>
                 <li data-fav><button class="dock-btn" data-open="contact" aria-label="Contact"><span class="app-icon ic-contact"><svg class="gl"><use href="#i-mail"/></svg></span><span class="tip">Contact</span></button></li>
+                <li><button class="dock-btn" data-open="browser" aria-label="Browser"><span class="app-icon ic-browser"><svg class="gl"><use href="#i-globe"/></svg></span><span class="tip">Browser</span></button></li>
+                <li><button class="dock-btn" data-open="terminal" aria-label="Terminal"><span class="app-icon ic-terminal"><svg class="gl"><use href="#i-terminal"/></svg></span><span class="tip">Terminal</span></button></li>
+                <li><button class="dock-btn" data-open="notes" aria-label="Notes"><span class="app-icon ic-notes"><svg class="gl"><use href="#i-notes"/></svg></span><span class="tip">Notes</span></button></li>
+                <li><button class="dock-btn" data-open="calculator" aria-label="Calculator"><span class="app-icon ic-calculator"><svg class="gl"><use href="#i-calc"/></svg></span><span class="tip">Calculator</span></button></li>
+                <li><button class="dock-btn" data-open="settings" aria-label="Settings"><span class="app-icon ic-settings"><svg class="gl"><use href="#i-sliders"/></svg></span><span class="tip">Settings</span></button></li>
             </ul>
             <span class="dock-sep" aria-hidden="true"></span>
             <ul class="dock-min" id="dockMin" aria-label="Minimized windows"></ul>
@@ -569,5 +783,6 @@
         </nav>
 
         <script src="desktop.js?v=1"></script>
+        <script src="apps.js?v=1"></script>
     </body>
 </html>

@@ -89,9 +89,18 @@
 
     // Send keyboard focus into an app's iframe so arrow keys reach the game right away.
     function focusFrame(win) {
-        var frame = $('iframe', win);
-        if (!frame || !frame.dataset.loaded) return;
+        var frame = $('iframe[data-src]', win);
+        if (!frame || !frame.dataset.loaded) return false;
         try { frame.contentWindow.focus(); } catch (e) {}
+        return true;
+    }
+
+    // Keyboard focus for a window that just came forward: its app iframe, its [data-autofocus] field
+    // (skipped on phones so the on-screen keyboard doesn't pop up uninvited), or the window itself.
+    function focusContent(win) {
+        if (focusFrame(win)) return;
+        var field = !isPhone() && $('[data-autofocus]', win);
+        (field || win).focus({ preventScroll: true });
     }
 
     /* ---------------- Iframes load on first open ---------------- */
@@ -169,11 +178,11 @@
             if (isPhone()) {
                 try { history.pushState({ win: app }, ''); } catch (e) {}
             }
+            win.dispatchEvent(new CustomEvent('jb:open'));
         }
 
         focusWindow(win);
-        if ($('iframe', win)) focusFrame(win);
-        else win.focus({ preventScroll: true });
+        focusContent(win);
         syncChrome();
     }
 
@@ -192,6 +201,7 @@
             win.hidden = true;
             win.classList.remove('focused');
             unloadFrame(win);
+            win.dispatchEvent(new CustomEvent('jb:close'));
         });
         removeMinTile(win);
         if (current === win) current = null;
@@ -265,7 +275,7 @@
         }
         removeMinTile(win);
         focusWindow(win);
-        if ($('iframe', win)) focusFrame(win); else win.focus({ preventScroll: true });
+        focusContent(win);
         syncChrome();
     }
 
@@ -513,6 +523,7 @@
     document.addEventListener('keydown', function (e) {
         if (e.key !== 'Escape') return;
         if (!logoMenu.hidden) { closeMenu(true); return; }
+        if (e.target.matches && e.target.matches('input, textarea')) return;
         var win = document.activeElement && document.activeElement.closest && document.activeElement.closest('.window');
         if (win) requestClose(win);
         else if (isPhone() && topmost()) requestClose(topmost());
@@ -573,11 +584,24 @@
         clock.textContent = (isPhone() ? shortFmt : longFmt).format(now).replace(',', '');
     });
 
+    /* ---------------- API for apps.js ---------------- */
+
+    window.JBDesktop = {
+        open: openApp,
+        close: function (app) { if (windows[app]) requestClose(windows[app]); },
+        isPhone: isPhone,
+        window: function (app) { return windows[app]; }
+    };
+
     /* ---------------- Boot screen, then first window ---------------- */
 
     function start() {
         var hash = window.location.hash.slice(1);
-        if (windows[hash]) openApp(hash);   // deep links like /desktop/#snake
+        if (!windows[hash]) return;
+        // Deep links like /desktop/#snake. Wait for apps.js (the next script) so its apps are wired up.
+        var go = function () { openApp(hash); };
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
     }
 
     var boot = $('#boot');
