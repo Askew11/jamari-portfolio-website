@@ -111,6 +111,8 @@ document.getElementById("year").innerHTML = " " + currentYear;
 // Modal
 function openModal(modalId) {
     var modal = document.getElementById(modalId);
+    var title = modal.querySelector('h4');
+    track('classic-project/' + modalId, title ? title.textContent.trim() : modalId);
     modal.classList.add('modal-open');
     modal.style.display = "block";
 }
@@ -150,8 +152,26 @@ closeLinks.forEach(function(closeLink) {
     });
 });
 
+// Visitor analytics (GoatCounter): count project views and clicks on the links that matter most.
+function track(path, title) {
+    if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: path, title: title || path, event: true });
+    }
+}
 
+function linkEvent(href) {
+    if (/Resume\.pdf/.test(href)) return 'click/resume';
+    if (/\/desktop\//.test(href)) return 'click/desktop-mode';
+    if (/linkedin\.com/.test(href)) return 'click/linkedin';
+    if (/github\.com/.test(href)) return 'click/github';
+    if (/^mailto:/.test(href)) return 'click/email';
+    if (/^\/(snake|a-star)\//.test(href)) return 'click/demo' + href.replace(/\/$/, '');
+    return null;
+}
 
-
-
-
+document.addEventListener('click', function (event) {
+    var link = event.target.closest('a[href]');
+    if (!link) return;
+    var name = linkEvent(link.getAttribute('href'));
+    if (name) track(name, link.textContent.trim() || name);
+});

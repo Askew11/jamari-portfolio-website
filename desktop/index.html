@@ -38,6 +38,9 @@
                 root.className = c;
             })();
         </script>
+        <!-- Visitor analytics (GoatCounter, no cookies). Pages shown inside another page (the desktop's windows) aren't counted twice. -->
+        <script>if (window.top !== window) window.goatcounter = { no_onload: true };</script>
+        <script data-goatcounter="https://askew.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     </head>
 
     <body>
@@ -787,7 +790,7 @@
             <ul class="dock-min" id="dockMin" aria-label="Minimized windows"></ul>
         </nav>
 
-        <script src="desktop.js?v=2"></script>
+        <script src="desktop.js?v=3"></script>
         <script src="apps.js?v=2"></script>
         <script src="layout.js?v=1"></script>
     </body>

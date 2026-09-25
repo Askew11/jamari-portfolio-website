@@ -137,6 +137,28 @@
         delete frame.dataset.loaded;
     }
 
+    /* ---------------- Visitor analytics (GoatCounter) ---------------- */
+
+    function track(path, title) {
+        if (window.goatcounter && window.goatcounter.count) {
+            window.goatcounter.count({ path: path, title: title || path, event: true });
+        }
+    }
+
+    // Clicks on the links that matter most (resume, profiles, email, back to the classic site).
+    document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        var name = /Resume\.pdf/.test(href) ? 'click/resume'
+            : /linkedin\.com/.test(href) ? 'click/linkedin'
+            : /github\.com/.test(href) ? 'click/github'
+            : /^mailto:/.test(href) ? 'click/email'
+            : href === '/' ? 'click/classic-view'
+            : null;
+        if (name) track(name, link.getAttribute('aria-label') || link.textContent.trim() || name);
+    }, true);
+
     /* ---------------- Open / close / minimize / maximize ---------------- */
 
     // Run fn when an animation ends, with a timer as backup (animations stall in tabs that aren't painting).
@@ -179,6 +201,7 @@
                 try { history.pushState({ win: app }, ''); } catch (e) {}
             }
             win.dispatchEvent(new CustomEvent('jb:open'));
+            track('desktop-app/' + app, win.dataset.title);
         }
 
         focusWindow(win);
