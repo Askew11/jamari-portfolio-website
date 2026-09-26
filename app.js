@@ -165,7 +165,7 @@ function linkEvent(href) {
     if (/linkedin\.com/.test(href)) return 'click/linkedin';
     if (/github\.com/.test(href)) return 'click/github';
     if (/^mailto:/.test(href)) return 'click/email';
-    if (/^\/(snake|a-star)\//.test(href)) return 'click/demo' + href.replace(/\/$/, '');
+    if (/^\/(snake|a-star|triage)\//.test(href)) return 'click/demo' + href.replace(/\/$/, '');
     return null;
 }
 
