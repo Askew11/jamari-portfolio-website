@@ -24,7 +24,7 @@
 
         <link rel="icon" type="image/x-icon" href="/favicon.ico">
         <!-- Hostinger caches CSS/JS for 7 days; bump ?v= whenever desktop.css or desktop.js changes -->
-        <link rel="stylesheet" href="desktop.css?v=3">
+        <link rel="stylesheet" href="desktop.css?v=4">
 
         <script>
             // Runs before first paint: mark JS as on, apply saved theme/wallpaper, and skip the boot screen if it already played.
@@ -114,13 +114,14 @@
                         <li><button data-open="calculator">Calculator</button></li>
                         <li><button data-open="settings">Settings…</button></li>
                         <li class="sep" role="separator"></li>
-                        <li><a href="/Jamari_Benologa_Resume.pdf?v=3" download>Download resume (PDF)</a></li>
+                        <li><a href="/Jamari_Benologa_Resume.pdf?v=4" download>Download resume (PDF)</a></li>
                         <li><a href="/">Classic view</a></li>
                     </ul>
                 </div>
                 <span class="active-app" id="activeApp">Desktop</span>
             </div>
             <div class="menubar-right">
+                <button class="menubar-btn hide-phone search-btn" id="searchBtn" aria-label="Search apps and projects (Ctrl+K)" title="Search (Ctrl+K)"><svg class="gl"><use href="#i-search"/></svg></button>
                 <button class="menubar-btn hide-phone" data-open="resume">Resume</button>
                 <a class="menubar-btn classic-link" href="/">Classic view</a>
                 <time class="clock" id="clock"></time>
@@ -489,18 +490,18 @@
                     <button class="back" data-act="close"><svg class="gl"><use href="#i-back"/></svg>Back</button>
                     <h2 class="win-title" id="t-resume">Resume.pdf</h2>
                     <div class="title-actions">
-                        <a class="icon-btn" href="/Jamari_Benologa_Resume.pdf?v=3" download aria-label="Download resume" title="Download"><svg class="gl"><use href="#i-download"/></svg></a>
-                        <a class="icon-btn" href="/Jamari_Benologa_Resume.pdf?v=3" target="_blank" rel="noopener" aria-label="Open resume in a new tab" title="Open in new tab"><svg class="gl"><use href="#i-external"/></svg></a>
+                        <a class="icon-btn" href="/Jamari_Benologa_Resume.pdf?v=4" download aria-label="Download resume" title="Download"><svg class="gl"><use href="#i-download"/></svg></a>
+                        <a class="icon-btn" href="/Jamari_Benologa_Resume.pdf?v=4" target="_blank" rel="noopener" aria-label="Open resume in a new tab" title="Open in new tab"><svg class="gl"><use href="#i-external"/></svg></a>
                     </div>
                 </div>
                 <div class="win-body frame">
-                    <iframe data-src="/Jamari_Benologa_Resume.pdf?v=3" data-phone-fallback title="Jamari Benologa's resume (PDF)"></iframe>
+                    <iframe data-src="/Jamari_Benologa_Resume.pdf?v=4" data-phone-fallback title="Jamari Benologa's resume (PDF)"></iframe>
                     <div class="pdf-fallback">
                         <span class="app-icon ic-resume"><svg class="gl"><use href="#i-doc"/></svg></span>
                         <p><strong>Jamari_Benologa_Resume.pdf</strong></p>
                         <div class="btn-row">
-                            <a class="btn primary" href="/Jamari_Benologa_Resume.pdf?v=3" target="_blank" rel="noopener"><svg class="gl"><use href="#i-external"/></svg>Open</a>
-                            <a class="btn" href="/Jamari_Benologa_Resume.pdf?v=3" download><svg class="gl"><use href="#i-download"/></svg>Download</a>
+                            <a class="btn primary" href="/Jamari_Benologa_Resume.pdf?v=4" target="_blank" rel="noopener"><svg class="gl"><use href="#i-external"/></svg>Open</a>
+                            <a class="btn" href="/Jamari_Benologa_Resume.pdf?v=4" download><svg class="gl"><use href="#i-download"/></svg>Download</a>
                         </div>
                     </div>
                 </div>
@@ -564,7 +565,7 @@
             </section>
 
             <!-- Contact -->
-            <section class="window" id="win-contact" data-app="contact" data-w="520" data-h="440" role="dialog" aria-labelledby="t-contact" tabindex="-1" hidden>
+            <section class="window" id="win-contact" data-app="contact" data-w="540" data-h="640" role="dialog" aria-labelledby="t-contact" tabindex="-1" hidden>
                 <div class="titlebar">
                     <div class="lights">
                         <button class="light l-close" data-act="close" aria-label="Close"><svg class="gl"><use href="#g-close"/></svg></button>
@@ -599,6 +600,21 @@
                             </li>
                         </ul>
                         <p class="copy-status muted" role="status" aria-live="polite"></p>
+
+                        <!-- Message form. Sends through Formspree; stays hidden until data-endpoint is set. -->
+                        <form class="contact-form" id="contactForm" data-endpoint="" novalidate hidden>
+                            <h4 class="section-label">Or send me a message</h4>
+                            <div class="cf-row">
+                                <label>Name<input name="name" type="text" autocomplete="name" required></label>
+                                <label>Email<input name="email" type="email" autocomplete="email" required></label>
+                            </div>
+                            <label>Message<textarea name="message" rows="4" required></textarea></label>
+                            <input class="cf-trap" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+                            <div class="cf-actions">
+                                <button class="btn primary" type="submit">Send message</button>
+                                <span class="cf-status muted" role="status" aria-live="polite"></span>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </section>
@@ -650,7 +666,7 @@
                             <button class="br-tile" data-url="/snake/"><span class="app-icon ic-snake"><svg class="gl"><use href="#i-snake"/></svg></span>Snake</button>
                             <button class="br-tile" data-url="/a-star/"><span class="app-icon ic-astar"><svg class="gl"><use href="#i-astar"/></svg></span>A* Pathfinding</button>
                             <button class="br-tile" data-url="/triage/"><span class="app-icon ic-triage"><svg class="gl"><use href="#i-triage"/></svg></span>AI Triage</button>
-                            <button class="br-tile" data-url="/Jamari_Benologa_Resume.pdf?v=3"><span class="app-icon ic-resume"><svg class="gl"><use href="#i-doc"/></svg></span>Resume</button>
+                            <button class="br-tile" data-url="/Jamari_Benologa_Resume.pdf?v=4"><span class="app-icon ic-resume"><svg class="gl"><use href="#i-doc"/></svg></span>Resume</button>
                             <button class="br-tile" data-url="/"><span class="app-icon ic-classic"><svg class="gl"><use href="#i-window"/></svg></span>Classic site</button>
                             <button class="br-tile" data-url="https://github.com/Askew11"><span class="app-icon ic-github"><svg class="gl"><use href="#i-code"/></svg></span>GitHub<svg class="gl ext" aria-label="opens in a new tab"><use href="#i-external"/></svg></button>
                             <button class="br-tile" data-url="https://www.linkedin.com/in/jamari-benologa/"><span class="app-icon ic-linkedin"><svg class="gl"><use href="#i-linkedin"/></svg></span>LinkedIn<svg class="gl ext" aria-label="opens in a new tab"><use href="#i-external"/></svg></button>
@@ -815,8 +831,20 @@
             <ul class="dock-min" id="dockMin" aria-label="Minimized windows"></ul>
         </nav>
 
+        <!-- Search (Ctrl+K / ⌘K, or the magnifier in the menu bar). Filled in by apps.js. -->
+        <div class="spotlight" id="spotlight" hidden>
+            <div class="spotlight-box" role="dialog" aria-modal="true" aria-label="Search">
+                <label class="spotlight-field">
+                    <svg class="gl"><use href="#i-search"/></svg>
+                    <input id="spotlightInput" type="text" placeholder="Search apps, projects, and links" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="spotlightList" aria-autocomplete="list">
+                </label>
+                <ul class="spotlight-list" id="spotlightList" role="listbox" aria-label="Results"></ul>
+                <p class="spotlight-hint"><kbd>↑</kbd><kbd>↓</kbd> to move · <kbd>Enter</kbd> to open · <kbd>Esc</kbd> to close</p>
+            </div>
+        </div>
+
         <script src="desktop.js?v=3"></script>
-        <script src="apps.js?v=3"></script>
+        <script src="apps.js?v=4"></script>
         <script src="layout.js?v=2"></script>
     </body>
 </html>

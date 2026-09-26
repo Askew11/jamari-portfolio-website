@@ -929,4 +929,204 @@
 
         render();
     })();
+
+    /* =====================================================================
+       Search (Ctrl+K / ⌘K): open any app, project, or link by typing
+       ===================================================================== */
+
+    (function () {
+        var overlay = $('#spotlight');
+        var input = $('#spotlightInput');
+        var list = $('#spotlightList');
+        var searchBtn = $('#searchBtn');
+        if (!overlay) return;
+
+        var KEYWORDS = {
+            about: 'bio me who profile', experience: 'jobs work career education school accenture', projects: 'portfolio folder',
+            resume: 'cv pdf', contact: 'email mail message linkedin', snake: 'game play', astar: 'a* algorithm maze path search',
+            triage: 'ai incident agent llm openai', browser: 'google web internet search', terminal: 'shell command line cli',
+            notes: 'text write', calculator: 'math calc', settings: 'wallpaper theme dark light appearance', classic: 'website home old'
+        };
+
+        // Built from the page's own icons before layout.js re-renders them, so every app is listed.
+        var items = [];
+        $$('.desk-icons .desk-icon').forEach(function (el) {
+            var id = el.dataset.open || 'classic';
+            items.push({
+                label: $('.label', el).textContent, kind: 'App', keywords: KEYWORDS[id] || '',
+                icon: $('.app-icon', el).cloneNode(true),
+                run: el.dataset.open ? function () { D.open(id); } : function () { window.location.href = el.getAttribute('href'); }
+            });
+        });
+        $$('.window[data-app^="proj-"]').forEach(function (win) {
+            var img = document.createElement('img');
+            img.className = 'sl-thumb';
+            img.alt = '';
+            img.src = win.dataset.thumb || '';
+            items.push({
+                label: $('.win-title', win).textContent, kind: 'Project', keywords: 'project ' + $('.chips', win).textContent,
+                icon: img, run: function () { D.open(win.dataset.app); }
+            });
+        });
+        [
+            ['Download resume (PDF)', 'cv pdf download', 'i-download', function () {
+                var a = document.createElement('a');
+                a.href = $('#win-resume a[download]').getAttribute('href');
+                a.download = '';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            }],
+            ['LinkedIn profile', 'linkedin social', 'i-linkedin', function () { window.open('https://www.linkedin.com/in/jamari-benologa/', '_blank', 'noopener'); }],
+            ['GitHub profile', 'github code repos', 'i-code', function () { window.open('https://github.com/Askew11', '_blank', 'noopener'); }],
+            ['Email Jamari', 'email mail contact', 'i-mail', function () { window.location.href = 'mailto:jamaribenologabusiness@gmail.com'; }]
+        ].forEach(function (l) {
+            var icon = make('span', 'app-icon ic-classic');
+            icon.appendChild(svgIcon(l[2]));
+            items.push({ label: l[0], kind: 'Link', keywords: l[1], icon: icon, run: l[3] });
+        });
+
+        function score(item, q) {
+            var label = item.label.toLowerCase();
+            var hay = label + ' ' + item.keywords.toLowerCase();
+            if (label.indexOf(q) === 0) return 100;
+            if ((' ' + label).indexOf(' ' + q) > -1) return 80;
+            if ((' ' + hay).indexOf(' ' + q) > -1) return 40;
+            if (q.length < 3) return 0;              // short queries only match the start of a word
+            if (label.indexOf(q) > -1) return 60;
+            if (hay.indexOf(q) > -1) return 30;
+            var i = 0;
+            for (var c = 0; c < label.length && i < q.length; c++) if (label[c] === q[i]) i++;
+            return i === q.length ? 10 : 0;
+        }
+
+        var results = [];
+        var active = 0;
+        var returnFocus = null;
+
+        function render() {
+            var q = input.value.trim().toLowerCase();
+            results = q
+                ? items.map(function (it, i) { return { it: it, s: score(it, q), i: i }; })
+                    .filter(function (r) { return r.s > 0; })
+                    .sort(function (a, b) { return b.s - a.s || a.i - b.i; })
+                    .slice(0, 9)
+                    .map(function (r) { return r.it; })
+                : items.filter(function (it) { return it.kind === 'App'; });
+            active = 0;
+            list.textContent = '';
+            if (!results.length) {
+                var none = make('li', 'spotlight-empty', 'No matches. Try "resume", "snake", or "AI".');
+                none.setAttribute('role', 'presentation');
+                list.appendChild(none);
+                input.removeAttribute('aria-activedescendant');
+                return;
+            }
+            results.forEach(function (it, i) {
+                var li = document.createElement('li');
+                li.id = 'sl-' + i;
+                li.setAttribute('role', 'option');
+                li.appendChild(it.icon.cloneNode(true));
+                li.appendChild(make('span', 'sl-label', it.label));
+                li.appendChild(make('span', 'sl-kind', it.kind));
+                li.addEventListener('mousemove', function () { if (active !== i) setActive(i); });
+                li.addEventListener('click', function () { choose(i); });
+                list.appendChild(li);
+            });
+            setActive(0);
+        }
+
+        function setActive(i) {
+            active = i;
+            $$('[role="option"]', list).forEach(function (li, n) { li.setAttribute('aria-selected', n === i ? 'true' : 'false'); });
+            var li = $('#sl-' + i);
+            if (li) {
+                input.setAttribute('aria-activedescendant', li.id);
+                li.scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        function choose(i) {
+            var it = results[i];
+            if (!it) return;
+            close(false);
+            it.run();
+        }
+
+        function open() {
+            if (!overlay.hidden) return;
+            returnFocus = document.activeElement;
+            overlay.hidden = false;
+            input.value = '';
+            render();
+            input.focus();
+        }
+
+        function close(restore) {
+            if (overlay.hidden) return;
+            overlay.hidden = true;
+            if (restore !== false && returnFocus && document.contains(returnFocus)) returnFocus.focus({ preventScroll: true });
+        }
+
+        input.addEventListener('input', render);
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowDown') { e.preventDefault(); if (results.length) setActive((active + 1) % results.length); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); if (results.length) setActive((active - 1 + results.length) % results.length); }
+            else if (e.key === 'Enter') { e.preventDefault(); choose(active); }
+            else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); }
+            else if (e.key === 'Tab') { e.preventDefault(); }
+        });
+        overlay.addEventListener('mousedown', function (e) { if (e.target === overlay) close(); });
+        if (searchBtn) searchBtn.addEventListener('click', open);
+        document.addEventListener('keydown', function (e) {
+            if ((e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                if (overlay.hidden) open(); else close();
+            }
+        });
+    })();
+
+    /* =====================================================================
+       Contact form (Formspree). Hidden until data-endpoint holds a form URL.
+       ===================================================================== */
+
+    (function () {
+        var form = $('#contactForm');
+        if (!form || !/^https:\/\/formspree\.io\/f\/\w+$/.test(form.dataset.endpoint || '')) return;
+        form.hidden = false;
+        var status = $('.cf-status', form);
+        var button = $('button[type="submit"]', form);
+
+        function say(text, cls) {
+            status.textContent = text;
+            status.className = 'cf-status ' + (cls || 'muted');
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var firstBad = null;
+            $$('input[required], textarea[required]', form).forEach(function (field) {
+                var ok = field.checkValidity() && field.value.trim() !== '';
+                field.setAttribute('aria-invalid', ok ? 'false' : 'true');
+                if (!ok && !firstBad) firstBad = field;
+            });
+            if (firstBad) {
+                say('Please fill in your name, a valid email, and a message.', 'bad');
+                firstBad.focus();
+                return;
+            }
+            button.disabled = true;
+            say('Sending\u2026');
+            fetch(form.dataset.endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+                .then(function (res) {
+                    if (!res.ok) throw new Error(res.status);
+                    form.reset();
+                    say('Thanks! Your message was sent. I\u2019ll get back to you soon.', 'good');
+                })
+                .catch(function () {
+                    say('Sorry, that didn\u2019t send. Please email me at jamaribenologabusiness@gmail.com.', 'bad');
+                })
+                .then(function () { button.disabled = false; });
+        });
+    })();
 })();
