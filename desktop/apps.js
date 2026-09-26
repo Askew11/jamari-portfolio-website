@@ -437,7 +437,7 @@
 
         var APPS = {
             about: 'about', experience: 'experience', exp: 'experience', projects: 'projects', resume: 'resume', cv: 'resume',
-            contact: 'contact', snake: 'snake', astar: 'astar', 'a*': 'astar', pathfinding: 'astar', browser: 'browser',
+            contact: 'contact', snake: 'snake', astar: 'astar', 'a*': 'astar', pathfinding: 'astar', triage: 'triage', ai: 'triage', browser: 'browser',
             web: 'browser', notes: 'notes', calculator: 'calculator', calc: 'calculator', settings: 'settings',
             terminal: 'terminal', classic: 'classic'
         };
@@ -498,7 +498,7 @@
                 print(['  ', span(String(i + 1) + '.', 'term-dim'), ' ', span(name, 'term-cmd')]);
             });
             print('');
-            print(span('Type `open projects` to browse them, or `open snake` / `open astar` to play.', 'term-dim'));
+            print(span('Type `open projects` to browse them, or `open snake`, `open astar`, or `open triage` to try one.', 'term-dim'));
         }
 
         function skills() {
@@ -557,7 +557,7 @@
             skills: { desc: 'Languages and tools I use', run: skills },
             contact: { desc: 'How to reach me', run: contact },
             resume: { desc: 'Open my resume', run: function () { print('Opening Resume.pdf\u2026'); D.open('resume'); } },
-            open: { usage: 'open <app>', desc: 'Open an app (about, projects, snake, astar, browser\u2026)', run: function (args) {
+            open: { usage: 'open <app>', desc: 'Open an app (about, projects, snake, astar, triage, browser\u2026)', run: function (args) {
                 var name = (args[0] || '').toLowerCase();
                 var app = APPS[name];
                 if (!name) { print('usage: open <app>. Apps: ' + Object.keys(APPS).filter(function (k) { return APPS[k] === k; }).join(', '), 'term-dim'); return; }
@@ -716,6 +716,7 @@
             '',
             'Things to try:',
             '\u2022 Play Snake, or watch A* find the shortest path',
+            '\u2022 Watch an AI agent triage IT incidents',
             '\u2022 Open Terminal and type help',
             '\u2022 Search the web in Browser',
             '\u2022 Pick a new wallpaper in Settings',

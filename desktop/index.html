@@ -52,6 +52,7 @@
             <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z"/><path d="M14 3.5v4h4M9 12h6M9 15.5h6"/></symbol>
             <symbol id="i-snake" viewBox="0 0 24 24"><path d="M4 18h5v-7h6v4h4" stroke-width="2.6"/><circle cx="18.5" cy="7" r="1.7" fill="currentColor" stroke="none"/></symbol>
             <symbol id="i-astar" viewBox="0 0 24 24"><path d="M5.5 18.5h5v-6h4v-5h4" stroke-dasharray="2.2 2.4"/><circle cx="5.5" cy="18.5" r="2.1" fill="currentColor" stroke="none"/><circle cx="18.5" cy="7.5" r="2.4"/></symbol>
+            <symbol id="i-triage" viewBox="0 0 24 24"><path d="M3.5 12.5h4l2.2-5.5 4.4 11 2.2-5.5h4.2"/></symbol>
             <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
             <symbol id="i-window" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 8.5h17M7 12h10M7 15h6"/></symbol>
             <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 11v5.5M8 8v.01M11.5 16.5V11M11.5 13.5c0-1.6 1-2.6 2.3-2.6s2.2.9 2.2 2.6v3"/></symbol>
@@ -141,6 +142,7 @@
                 <li data-fav><button class="desk-icon" data-open="resume"><span class="app-icon ic-resume"><svg class="gl"><use href="#i-doc"/></svg></span><span class="label">Resume.pdf</span></button></li>
                 <li><button class="desk-icon" data-open="snake"><span class="app-icon ic-snake"><svg class="gl"><use href="#i-snake"/></svg></span><span class="label">Snake</span></button></li>
                 <li><button class="desk-icon" data-open="astar"><span class="app-icon ic-astar"><svg class="gl"><use href="#i-astar"/></svg></span><span class="label">A* Pathfinding</span></button></li>
+                <li><button class="desk-icon" data-open="triage"><span class="app-icon ic-triage"><svg class="gl"><use href="#i-triage"/></svg></span><span class="label">AI Triage</span></button></li>
                 <li data-fav><button class="desk-icon" data-open="contact"><span class="app-icon ic-contact"><svg class="gl"><use href="#i-mail"/></svg></span><span class="label">Contact</span></button></li>
                 <li data-phone-only><button class="desk-icon" data-open="browser"><span class="app-icon ic-browser"><svg class="gl"><use href="#i-globe"/></svg></span><span class="label">Browser</span></button></li>
                 <li data-phone-only><button class="desk-icon" data-open="terminal"><span class="app-icon ic-terminal"><svg class="gl"><use href="#i-terminal"/></svg></span><span class="label">Terminal</span></button></li>
@@ -305,7 +307,7 @@
                         <li><button class="project-item" data-open="proj-astar"><img src="/Pathfinding.png?v=2" alt=""><span>A* Pathfinding</span></button></li>
                         <li><button class="project-item" data-open="proj-webscraper"><img src="/Webscaper.png" alt=""><span>Webscraper</span></button></li>
                         <li><button class="project-item" data-open="proj-bananaquest"><img src="/BananaQuest.png" alt=""><span>Banana Quest</span></button></li>
-                        <li><button class="project-item" data-open="proj-triage"><img src="/ai-incident-triage-placeholder.svg" alt=""><span>AI Incident Triage</span></button></li>
+                        <li><button class="project-item" data-open="proj-triage"><img src="/AITriage.png" alt=""><span>AI Incident Triage</span></button></li>
                         <li><button class="project-item" data-open="proj-zenathlete"><img src="/zenathlete-placeholder.svg" alt=""><span>ZenAthlete</span></button></li>
                     </ul>
                 </div>
@@ -429,7 +431,7 @@
             </section>
 
             <!-- Project: AI Incident Triage -->
-            <section class="window" id="win-proj-triage" data-app="proj-triage" data-w="600" data-h="600" data-thumb="/ai-incident-triage-placeholder.svg" role="dialog" aria-labelledby="t-proj-triage" tabindex="-1" hidden>
+            <section class="window" id="win-proj-triage" data-app="proj-triage" data-w="600" data-h="600" data-thumb="/AITriage.png" role="dialog" aria-labelledby="t-proj-triage" tabindex="-1" hidden>
                 <div class="titlebar">
                     <div class="lights">
                         <button class="light l-close" data-act="close" aria-label="Close"><svg class="gl"><use href="#g-close"/></svg></button>
@@ -440,12 +442,14 @@
                     <h2 class="win-title" id="t-proj-triage">AI Incident Triage Assistant</h2>
                 </div>
                 <div class="win-body">
-                    <img class="project-hero" src="/ai-incident-triage-placeholder.svg" alt="Illustration of an incident dashboard">
+                    <img class="project-hero" src="/AITriage.png" alt="Screenshot of the AI incident triage dashboard">
                     <div class="pad project">
                         <ul class="chips"><li>Python</li><li>FastAPI</li><li>SQLAlchemy</li><li>OpenAI API</li></ul>
                         <p>Built a backend service that ingests IT incident tickets and uses an agentic AI pipeline to classify, score urgency, and recommend next actions. Instead of a fixed pipeline, an LLM agent decides which tools to call and in what order — classifying the incident, scoring urgency, writing a summary, and recommending actions — with results stored and exposed through a filterable REST API.</p>
                         <div class="btn-row">
-                            <a class="btn primary" href="https://github.com/Askew11/ai-incident-triage" target="_blank" rel="noopener noreferrer"><svg class="gl"><use href="#i-code"/></svg>View on GitHub</a>
+                            <button class="btn primary" data-open="triage"><svg class="gl"><use href="#i-play"/></svg>Try the demo</button>
+                            <a class="btn" href="/triage/" target="_blank" rel="noopener noreferrer"><svg class="gl"><use href="#i-external"/></svg>Open in new tab</a>
+                            <a class="btn" href="https://github.com/Askew11/ai-incident-triage" target="_blank" rel="noopener noreferrer"><svg class="gl"><use href="#i-code"/></svg>GitHub</a>
                         </div>
                     </div>
                 </div>
@@ -540,6 +544,25 @@
                 </div>
             </section>
 
+            <!-- AI Incident Triage (live demo) -->
+            <section class="window" id="win-triage" data-app="triage" data-w="1080" data-h="780" data-minw="380" data-minh="420" role="dialog" aria-labelledby="t-triage" tabindex="-1" hidden>
+                <div class="titlebar">
+                    <div class="lights">
+                        <button class="light l-close" data-act="close" aria-label="Close"><svg class="gl"><use href="#g-close"/></svg></button>
+                        <button class="light l-min" data-act="min" aria-label="Minimize"><svg class="gl"><use href="#g-min"/></svg></button>
+                        <button class="light l-max" data-act="max" aria-label="Maximize"><svg class="gl"><use href="#g-max"/></svg></button>
+                    </div>
+                    <button class="back" data-act="close"><svg class="gl"><use href="#i-back"/></svg>Back</button>
+                    <h2 class="win-title" id="t-triage">AI Incident Triage</h2>
+                    <div class="title-actions">
+                        <a class="icon-btn" href="/triage/" target="_blank" rel="noopener" aria-label="Open AI Incident Triage in a new tab" title="Open in new tab"><svg class="gl"><use href="#i-external"/></svg></a>
+                    </div>
+                </div>
+                <div class="win-body frame">
+                    <iframe data-src="/triage/" data-embed title="AI incident triage demo"></iframe>
+                </div>
+            </section>
+
             <!-- Contact -->
             <section class="window" id="win-contact" data-app="contact" data-w="520" data-h="440" role="dialog" aria-labelledby="t-contact" tabindex="-1" hidden>
                 <div class="titlebar">
@@ -626,6 +649,7 @@
                         <div class="br-tiles">
                             <button class="br-tile" data-url="/snake/"><span class="app-icon ic-snake"><svg class="gl"><use href="#i-snake"/></svg></span>Snake</button>
                             <button class="br-tile" data-url="/a-star/"><span class="app-icon ic-astar"><svg class="gl"><use href="#i-astar"/></svg></span>A* Pathfinding</button>
+                            <button class="br-tile" data-url="/triage/"><span class="app-icon ic-triage"><svg class="gl"><use href="#i-triage"/></svg></span>AI Triage</button>
                             <button class="br-tile" data-url="/Jamari_Benologa_Resume.pdf?v=3"><span class="app-icon ic-resume"><svg class="gl"><use href="#i-doc"/></svg></span>Resume</button>
                             <button class="br-tile" data-url="/"><span class="app-icon ic-classic"><svg class="gl"><use href="#i-window"/></svg></span>Classic site</button>
                             <button class="br-tile" data-url="https://github.com/Askew11"><span class="app-icon ic-github"><svg class="gl"><use href="#i-code"/></svg></span>GitHub<svg class="gl ext" aria-label="opens in a new tab"><use href="#i-external"/></svg></button>
@@ -778,6 +802,7 @@
                 <li data-fav><button class="dock-btn" data-open="resume" aria-label="Resume"><span class="app-icon ic-resume"><svg class="gl"><use href="#i-doc"/></svg></span><span class="tip">Resume</span></button></li>
                 <li><button class="dock-btn" data-open="snake" aria-label="Snake"><span class="app-icon ic-snake"><svg class="gl"><use href="#i-snake"/></svg></span><span class="tip">Snake</span></button></li>
                 <li><button class="dock-btn" data-open="astar" aria-label="A* Pathfinding"><span class="app-icon ic-astar"><svg class="gl"><use href="#i-astar"/></svg></span><span class="tip">A* Pathfinding</span></button></li>
+                <li><button class="dock-btn" data-open="triage" aria-label="AI Incident Triage"><span class="app-icon ic-triage"><svg class="gl"><use href="#i-triage"/></svg></span><span class="tip">AI Incident Triage</span></button></li>
                 <li data-fav><button class="dock-btn" data-open="contact" aria-label="Contact"><span class="app-icon ic-contact"><svg class="gl"><use href="#i-mail"/></svg></span><span class="tip">Contact</span></button></li>
                 <li><button class="dock-btn" data-open="browser" aria-label="Browser"><span class="app-icon ic-browser"><svg class="gl"><use href="#i-globe"/></svg></span><span class="tip">Browser</span></button></li>
                 <li><button class="dock-btn" data-open="terminal" aria-label="Terminal"><span class="app-icon ic-terminal"><svg class="gl"><use href="#i-terminal"/></svg></span><span class="tip">Terminal</span></button></li>

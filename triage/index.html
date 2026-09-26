@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Incident Triage Demo</title>
+    <meta name="description" content="Watch an AI agent triage IT incidents: it classifies each ticket, scores urgency, and recommends next actions.">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Visitor analytics (GoatCounter, no cookies). Pages shown inside another page (the desktop's windows) aren't counted twice. -->
+    <script>if (window.top !== window) window.goatcounter = { no_onload: true };</script>
+    <script data-goatcounter="https://askew.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </head>
+
+  <body>
+    <header class="top">
+      <h1>AI Incident Triage</h1>
+      <p class="sub">An AI agent reads each IT ticket, decides which tools to use, and hands back a category, an urgency score, and next steps.</p>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="Controls">
+        <div class="group">
+          <button id="triageAll" class="primary">Triage all incidents</button>
+          <button id="reset">Reset</button>
+        </div>
+        <div class="group filters">
+          <label>Category
+            <select id="fCategory"><option value="">All</option></select>
+          </label>
+          <label>Urgency
+            <select id="fUrgency">
+              <option value="">Any</option>
+              <option value="7">7 and up</option>
+              <option value="5">5 and up</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <p class="note">This demo replays the agent's runs on the project's sample tickets, so it needs no API key. The real service is a Python/FastAPI backend that calls OpenAI's gpt-4o-mini. The rule checks run live in your browser, just as they do on the server.</p>
+
+      <dl class="stats" aria-live="polite">
+        <div><dt>Incidents</dt><dd id="sTotal">0</dd></div>
+        <div><dt>Triaged</dt><dd id="sDone">0</dd></div>
+        <div><dt>Urgent (7+)</dt><dd id="sUrgent">—</dd></div>
+        <div><dt>Process gaps found</dt><dd id="sGaps">—</dd></div>
+      </dl>
+
+      <div class="layout">
+        <section class="queue" aria-labelledby="queueTitle">
+          <h2 id="queueTitle">Incident queue</h2>
+          <ul id="queue"></ul>
+          <p id="empty" class="empty" hidden>No incidents match these filters.</p>
+        </section>
+
+        <section class="detail" id="detail" aria-live="polite" tabindex="-1"></section>
+      </div>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

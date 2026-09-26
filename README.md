@@ -12,7 +12,7 @@ It comes in two versions:
 - **Window manager:** drag, resize, minimize to the dock, maximize, and z-order stacking. Pointer Events give mouse and touch one code path.
 - **Customizable desktop and dock:** drag icons around a snapping grid, reorder the dock, drag apps between the dock and the desktop, and right-click for menus. Layouts are saved per visitor.
 - **Apps:** About, Experience, Projects, Resume (PDF viewer), Contact, Browser (tabs and history), Terminal, Notes, Calculator, and Settings (wallpapers, light/dark mode).
-- **Live demos in windows:** [Snake](https://jamaribenologa.com/snake/) and [A* Pathfinding](https://jamaribenologa.com/a-star/), loaded only when their window opens.
+- **Live demos in windows:** [Snake](https://jamaribenologa.com/snake/), [A* Pathfinding](https://jamaribenologa.com/a-star/), and [AI Incident Triage](https://jamaribenologa.com/triage/), loaded only when their window opens.
 - **Phones:** a home screen with full-screen apps and an iOS-style edit mode (press and hold to rearrange).
 - **Accessibility:** keyboard navigation, focus management, visible focus rings, and reduced-motion support.
 
@@ -26,6 +26,7 @@ It comes in two versions:
 | `desktop/apps.js` | Browser, Terminal, Notes, Calculator, Settings |
 | `desktop/layout.js` | Draggable icons and dock, right-click menus, phone edit mode |
 | `snake/`, `a-star/` | Live demos (from [Snake-Game](https://github.com/Askew11/Snake-Game) and [A-Pathfinding](https://github.com/Askew11/A-Pathfinding)) |
+| `triage/` | AI Incident Triage demo: replays the agent's recorded runs from [ai-incident-triage](https://github.com/Askew11/ai-incident-triage) in the browser, so it needs no API key or backend |
 
 ## Run locally
 

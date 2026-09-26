@@ -51,9 +51,9 @@
     /* ---------------- Saved layout ---------------- */
 
     var DEFAULTS = {
-        desk: ['about', 'experience', 'projects', 'resume', 'snake', 'astar', 'contact', 'classic'],
-        dock: ['about', 'experience', 'projects', 'resume', 'contact', 'snake', 'astar', 'browser', 'terminal', 'notes', 'calculator', 'settings', 'classic'],
-        home: ['experience', 'snake', 'astar', 'browser', 'terminal', 'notes', 'calculator', 'settings', 'classic'],
+        desk: ['about', 'experience', 'projects', 'resume', 'snake', 'astar', 'triage', 'contact', 'classic'],
+        dock: ['about', 'experience', 'projects', 'resume', 'contact', 'snake', 'astar', 'triage', 'browser', 'terminal', 'notes', 'calculator', 'settings', 'classic'],
+        home: ['experience', 'snake', 'astar', 'triage', 'browser', 'terminal', 'notes', 'calculator', 'settings', 'classic'],
         phoneDock: ['about', 'projects', 'resume', 'contact']
     };
 

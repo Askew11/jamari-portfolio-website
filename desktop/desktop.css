@@ -480,6 +480,7 @@ img { max-width: 100%; }
 .ic-resume     { background: linear-gradient(145deg, #ff8c8c, #d93c62); }
 .ic-snake      { background: linear-gradient(145deg, #5ee08e, #169a4d); }
 .ic-astar      { background: linear-gradient(145deg, #5fd6e0, #3a6fd8); }
+.ic-triage     { background: linear-gradient(145deg, #ff9a8a, #c2398f); }
 .ic-contact    { background: linear-gradient(145deg, #7fd0ff, #2f8ef0); }
 .ic-classic    { background: linear-gradient(145deg, #b9b3c4, #6b6478); }
 .ic-linkedin   { background: linear-gradient(145deg, #3f9ae0, #1664b8); }
