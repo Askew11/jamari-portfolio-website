@@ -1004,6 +1004,127 @@ header .desktop-mode:focus-visible {
     }
 }
 
+/* Message form under the contact boxes */
+.contact-form{
+    width: 87%;
+    max-width: 640px;
+    margin: 20px auto 0 auto;
+    text-align: left;
+}
+
+.contact-form h3{
+    margin: 0 0 24px 0;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.contact-form label{
+    display: block;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: .5px;
+}
+
+.contact-form input,
+.contact-form textarea{
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .08);
+    color: white;
+    font: 15px/1.5 -apple-system, Arial, sans-serif;
+}
+
+.contact-form textarea{
+    resize: vertical;
+    min-height: 130px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus{
+    outline: 2px solid var(--mainColor);
+    outline-offset: 0;
+    border-color: transparent;
+}
+
+.contact-form [aria-invalid="true"]{
+    border-color: #ff8a8a;
+}
+
+.cf-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.cf-trap{
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.cf-actions{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 4px;
+}
+
+.cf-send{
+    padding: 12px 28px;
+    border: 1px solid var(--mainColor);
+    border-radius: 999px;
+    background: var(--mainColor);
+    color: black;
+    font: bold 15px -apple-system, Arial, sans-serif;
+    letter-spacing: .5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cf-send:hover,
+.cf-send:focus-visible{
+    background: transparent;
+    color: white;
+}
+
+.cf-send:disabled{
+    opacity: .6;
+    cursor: default;
+}
+
+.cf-status{
+    margin: 0;
+    font-size: 14px;
+}
+
+.cf-status.good{
+    color: #9ff0c2;
+}
+
+.cf-status.bad{
+    color: #ffb4b4;
+}
+
+@media screen and (max-width: 600px){
+    .cf-row{
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .cf-actions{
+        justify-content: center;
+        text-align: center;
+    }
+}
+
 .footer {
     display: flex;
     text-align: center;

@@ -4,7 +4,7 @@
     <head>
         <title>Jamari Benologa's Website</title>
         <!-- Hostinger caches CSS/JS for 7 days; bump ?v= whenever app.css or app.js changes -->
-        <link href="app.css?v=6" rel="stylesheet">
+        <link href="app.css?v=7" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
 
         <link rel="icon" type="image/x-icon" href="/favicon.ico?">
@@ -552,6 +552,21 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Message form, sent through Formspree (same endpoint as the desktop's Contact app) -->
+            <form class="contact-form" id="contactForm" action="https://formspree.io/f/xeaordkj" method="POST" novalidate>
+                <h3>Or send me a message</h3>
+                <div class="cf-row">
+                    <label>Name<input name="name" type="text" autocomplete="name" required></label>
+                    <label>Email<input name="email" type="email" autocomplete="email" required></label>
+                </div>
+                <label>Message<textarea name="message" rows="5" required></textarea></label>
+                <input class="cf-trap" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <div class="cf-actions">
+                    <button class="cf-send" type="submit">Send message</button>
+                    <p class="cf-status" role="status" aria-live="polite"></p>
+                </div>
+            </form>
         </section>
         <footer class="footer">
             <ul class="row">
@@ -561,7 +576,7 @@
         </footer>
 
         <script src="https://kit.fontawesome.com/5b396371bf.js" crossorigin="anonymous"></script>
-        <script src="app.js?v=5"></script>
+        <script src="app.js?v=6"></script>
 
     </body>
 

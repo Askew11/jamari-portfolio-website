@@ -175,3 +175,44 @@ document.addEventListener('click', function (event) {
     var name = linkEvent(link.getAttribute('href'));
     if (name) track(name, link.textContent.trim() || name);
 });
+
+// Contact form: send through Formspree without leaving the page.
+(function () {
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+    var status = form.querySelector('.cf-status');
+    var button = form.querySelector('.cf-send');
+
+    function say(text, cls) {
+        status.textContent = text;
+        status.className = 'cf-status' + (cls ? ' ' + cls : '');
+    }
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var firstBad = null;
+        form.querySelectorAll('input[required], textarea[required]').forEach(function (field) {
+            var ok = field.checkValidity() && field.value.trim() !== '';
+            field.setAttribute('aria-invalid', ok ? 'false' : 'true');
+            if (!ok && !firstBad) firstBad = field;
+        });
+        if (firstBad) {
+            say('Please fill in your name, a valid email, and a message.', 'bad');
+            firstBad.focus();
+            return;
+        }
+        button.disabled = true;
+        say('Sending\u2026');
+        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+            .then(function (res) {
+                if (!res.ok) throw new Error(res.status);
+                form.reset();
+                say('Thanks! Your message was sent. I\u2019ll get back to you soon.', 'good');
+                track('contact-form/sent', 'Contact form (classic)');
+            })
+            .catch(function () {
+                say('Sorry, that didn\u2019t send. Please email me at jamaribenologabusiness@gmail.com.', 'bad');
+            })
+            .then(function () { button.disabled = false; });
+    });
+})();

@@ -1122,6 +1122,9 @@
                     if (!res.ok) throw new Error(res.status);
                     form.reset();
                     say('Thanks! Your message was sent. I\u2019ll get back to you soon.', 'good');
+                    if (window.goatcounter && window.goatcounter.count) {
+                        window.goatcounter.count({ path: 'contact-form/sent', title: 'Contact form (desktop)', event: true });
+                    }
                 })
                 .catch(function () {
                     say('Sorry, that didn\u2019t send. Please email me at jamaribenologabusiness@gmail.com.', 'bad');
